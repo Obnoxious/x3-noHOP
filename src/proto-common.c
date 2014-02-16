@@ -697,19 +697,11 @@ mod_chanmode_apply(struct userNode *who, struct chanNode *channel, struct mod_ch
              * because switch does only full comparison. This needs redone as if/else.
              **/
         case MODE_CHANOP:
-        case MODE_HALFOP:
         case MODE_VOICE:
         case MODE_VOICE|MODE_CHANOP:
-        case MODE_VOICE|MODE_HALFOP:
-        case MODE_CHANOP|MODE_HALFOP:
-        case MODE_VOICE|MODE_CHANOP|MODE_HALFOP:
         case MODE_REMOVE|MODE_CHANOP:
-        case MODE_REMOVE|MODE_HALFOP:
         case MODE_REMOVE|MODE_VOICE:
         case MODE_REMOVE|MODE_VOICE|MODE_CHANOP:
-        case MODE_REMOVE|MODE_VOICE|MODE_HALFOP:
-        case MODE_REMOVE|MODE_CHANOP|MODE_HALFOP:
-        case MODE_REMOVE|MODE_VOICE|MODE_CHANOP|MODE_HALFOP:
             if (change->args[ii].mode & MODE_REMOVE)
                 change->args[ii].u.member->modes &= ~change->args[ii].mode;
             else

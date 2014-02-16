@@ -175,8 +175,6 @@ webtv_ison(struct userNode *bot, struct userNode *tell, struct userNode *target,
         }
         if (mn->modes & MODE_CHANOP)
             buff[count++] = '@';
-        if (mn->modes & MODE_HALFOP)
-            buff[count++] = '%';
         if (mn->modes & MODE_VOICE)
             buff[count++] = '+';
         memcpy(buff+count, mn->channel->name, here_len);
