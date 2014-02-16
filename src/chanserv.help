@@ -343,7 +343,7 @@
         "Note: If you use the $blimit$b criteria, the full count of matching do-not-register entries will be shown at the end of the $bdnrsearch$b output, but only the first $blimit$b entries will be affected by the action.",
         "$uSee Also:$u dnrsearch, dnrsearch action");
 "DOWN" ("/msg $C DOWN <#channel>",
-        "This command will devoice/dehalfop/deop you in the selected channel.",
+        "This command will devoice/deop you in the selected channel.",
         "$uSee Also:$u downall, up, upall");
 "DOWNALL" ("/msg $C DOWNALL",
         "Executes the $bdown$b command for each channel you have access to.",
@@ -473,7 +473,7 @@
 
 "RESYNC" ("/msg $S RESYNC <#channel>",
         "Synchronizes users in the channel with the userlist, according to the SET AUTOMODE setting.",
-        "It will give and take ops, halfops, and voice modes to users to make the channel match the userlist and automode setting.",
+        "It will give and take ops and voice modes to users to make the channel match the userlist and automode setting.",
         "$uSee Also:$u set automode, up, op, voice");
 
 "SAY" ("/msg $C SAY <#channel|nick|*account> <text>",
@@ -528,7 +528,7 @@
         "NODELETE:  Prevents channel deletion.",
         "UNREVIEWED:   Indicates channels that have not been manually reviewed.",
         "If you wish to reset your channel to the default settings, you can use the $bSET DEFAULTS$b command.",
-        "$uSee Also:$u set pubcmd, set enfops, set enfhalfops, set enfmodes, set enftopic, set protect, set toys, set setters, set topicrefresh, set resync, set ctcpreaction, set maxsetinfo, set defaults");
+        "$uSee Also:$u set pubcmd, set enfops, set enfmodes, set enftopic, set protect, set toys, set setters, set topicrefresh, set resync, set ctcpreaction, set maxsetinfo, set defaults");
 
 "SET DEFAULTTOPIC" ("/msg $C SET <#channel> DEFAULTTOPIC <New default topic>",
         "This changes the default topic for the channel.  $C will set the IRC topic to this value when the $btopic$b command is used with no arguments, when the topic refresh happens (if you have $bset topicrefresh$b), or when an unauthorized user changes the topic to something else.",
@@ -576,11 +576,10 @@
         "This setting configures who $C gives different channel modes to on join or RESYNC.  ",
         "Valid settings are:",
         "  $b0$b  Noone will be automatically oped, half-oped, or voiced.",
-        "  $b1$b  Give voice to pals, half-op to halfops, and op to ops.",
+        "  $b1$b  Give voice to pals and op to ops.",
         "  $b2$b  #1 Plus Give voice to everyone.",
-        "  $b3$b  #1 Plus give halfops to everyone.",
         "  $b4$b  #1 Plus give ops to everyone (not advised.)",
-        "  $b5$b  Give half-op to halfops, and op to ops only, but pals do not get voice. ",
+        "  $b5$b  Give op to ops only, but pals do not get voice. ",
         "$uSee Also:$u set, up, uset autoop, resync");
 
 "SET BANTIMEOUT" ("/msg $C SET <#channel> BANTIMEOUT <value>",
