@@ -1,0 +1,3 @@
+x3ldap.o: x3ldap.c config.h
+
+config.h:
