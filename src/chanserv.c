@@ -3374,7 +3374,7 @@ static CHANSERV_FUNC(cmd_levels)
     struct helpfile_table tbl;
     int ii = 0;
 
-    tbl.length = 6 + 1; // 6 levels
+    tbl.length = 5 + 1; // 6 levels
     tbl.width = 4;
     tbl.flags = 0;
     tbl.contents = calloc(tbl.length,sizeof(tbl.contents[0]));
