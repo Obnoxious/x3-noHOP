@@ -543,7 +543,7 @@ svccmd_can_invoke(struct userNode *user, struct userNode *bot, struct svccmd *cm
     }
     if (flags & MODCMD_REQUIRE_STAFF) {
         if (((flags & MODCMD_REQUIRE_OPER) && IsOper(user))
-            || ((flags & MODCMD_REQUIRE_NETWORK_HELPER) && IsNetworkHelper(user))
+	    || ((flags & MODCMD_REQUIRE_NETWORK_HELPER) && IsNetworkHelper(user))
             || ((flags & MODCMD_REQUIRE_SUPPORT_HELPER) && IsSupportHelper(user))) {
             /* allow it */
             rflags |= ACTION_STAFF;
@@ -963,7 +963,7 @@ svccmd_invoke(struct userNode *user, struct service *service, struct chanNode *c
     if (!*text)
         return 0;
     if (service->privileged) {
-        if (!IsOper(user)) {
+        if (!IsNetworkHelper(user)) {
             send_message(user, service->bot, "MSG_SERVICE_PRIVILEGED", service->bot->nick);
             return 0;
         }
@@ -1458,7 +1458,7 @@ static MODCMD_FUNC(cmd_command) {
     shown_flags = 0;
     if (svccmd->min_opserv_level > 0) {
         reply("MCMSG_NEED_OPSERV_LEVEL", svccmd->min_opserv_level);
-        shown_flags |= MODCMD_REQUIRE_OPER | MODCMD_REQUIRE_AUTHED;
+        shown_flags |= MODCMD_REQUIRE_AUTHED;
     }
     if (svccmd->min_channel_access > 0) {
         reply("MCMSG_NEED_CHANSERV_LEVEL", svccmd->min_channel_access);
