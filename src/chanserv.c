@@ -3273,7 +3273,7 @@ static CHANSERV_FUNC(cmd_deluser)
             reply("CSMSG_INVALID_ACCESS", argv[1]);
             return 0;
         }
-	if(strcasecmp(argv[1], useraccess))
+	if(victim->access != access_level)
 	{
 	    reply("CSMSG_INCORRECT_ACCESS", handle->handle, user_level_name_from_level(victim->access), argv[1]);
 	    return 0;
