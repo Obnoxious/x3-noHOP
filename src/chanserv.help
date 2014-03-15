@@ -578,8 +578,9 @@
         "  $b0$b  Noone will be automatically oped, half-oped, or voiced.",
         "  $b1$b  Give voice to pals and op to ops.",
         "  $b2$b  #1 Plus Give voice to everyone.",
-        "  $b4$b  #1 Plus give ops to everyone (not advised.)",
-        "  $b5$b  Give op to ops only, but pals do not get voice. ",
+        "  $b3$b  #1 Plus give ops to everyone (not advised.)",
+        "  $b4$b  Give op to ops only, but pals do not get voice. ",
+		"  $b5$b  Just voice everyone with access. ",
         "$uSee Also:$u set, up, uset autoop, resync");
 
 "SET BANTIMEOUT" ("/msg $C SET <#channel> BANTIMEOUT <value>",
