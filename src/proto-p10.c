@@ -1195,26 +1195,6 @@ irc_mark(struct userNode *user, char *mark)
     /* Save it in the user */
     user->mark = strdup(mark);
 
-    /* If they are not otherwise marked, mark their host with fakehost */
-    if(!IsFakeHost(user) && !IsSetHost(user) && !(IsHiddenHost(user) && user->handle_info) )
-    {
-        struct modeNode *mn = NULL;
-        char fakehost[HOSTLEN];
-        unsigned int count = 0;
-        unsigned int n = 0;
-
-        putsock("%s " CMD_FAKEHOST " %s %s.%s", self->numeric, user->numeric, mark, host);
-        putsock("%s " CMD_MODE " %s +x", self->numeric, user->nick);
-        
-        snprintf(fakehost, sizeof(fakehost), "%s.%s", mark, host);
-        safestrncpy(user->fakehost, fakehost, sizeof(user->fakehost));
-
-        for (n=count=0; n<user->channels.used; n++) {
-            mn = user->channels.list[n];
-            if (strlen(mn->channel->name) >= 1) /* Sanity */
-                check_bans(user, mn->channel->name);
-        }
-    }
 }
 
 void irc_sno(unsigned int mask, char const* format, ...) {
