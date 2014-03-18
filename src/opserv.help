@@ -40,7 +40,7 @@
             "  $bSTRACE$b      Search the shun list.",
             "  $b$b",
             "  $bGAG$b         Cause the services to ignore... ",
-            "  $bUNGAG$b       ...or unignore by mask."
+            "  $bUNGAG$b       ...or unignore by mask.",
             "  $b$b",
             "  $bKILL$b        Kill a user. ",
             );
