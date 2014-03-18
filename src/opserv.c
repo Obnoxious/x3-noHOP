@@ -434,8 +434,8 @@ static const struct message_entry msgtab[] = {
     { "OSMSG_PRIV_UNKNOWN", "Unknown privilege flag %s, see /msg $O HELP PRIVFLAGS for a flag list" },
     { "OSMSG_PRIV_SET",     "Privilege flag %s has been %sset" },
 
-	{ "OSMSG_KILL_OPER", "$b%s$b is an Oper and may not be killed." },
-	{ "OSMSG_KILL_ISSUED", "Killed $b%s$b." },
+    { "OSMSG_KILL_OPER", "$b%s$b is an Oper and may not be killed." },
+    { "OSMSG_KILL_ISSUED", "Killed $b%s$b." },
 
     { NULL, NULL }
 };
@@ -1263,11 +1263,11 @@ static MODCMD_FUNC(cmd_kill)
 	struct userNode *target;
 	char *reason;
 
-	if (argc < 2) {
-		reason = alloca(strlen(OSMSG__KILL_REQUESTED)+strlen(user->nick)+1);
+	if (argc <= 2) {
+		reason = alloca(strlen(OSMSG_KILL_REQUESTED)+strlen(user->nick)+1);
 		sprintf(reason, OSMSG_KILL_REQUESTED, user->nick);
 	} else {
-		reason = unsplit_string(argv+1, argc-1, NULL);
+		reason = unsplit_string(argv+2, argc-2, NULL);
 	}
 
 	target = GetUserH(argv[1]);
@@ -7236,7 +7236,7 @@ init_opserv(const char *nick)
     opserv_define_func("ADDTRUST", cmd_addtrust, 800, 0, 5);
     opserv_define_func("BAN", cmd_ban, 100, 2, 2);
     opserv_define_func("BLOCK", cmd_block, 100, 0, 2);
-	opserv_define_func("KILL", cmd_kill, 100, 0, 2);
+    opserv_define_func("KILL", cmd_kill, 100, 0, 2);
     opserv_define_func("CHANINFO", cmd_chaninfo, 0, 3, 0);
     opserv_define_func("CLEARBANS", cmd_clearbans, 300, 2, 0);
     opserv_define_func("CLEARMODES", cmd_clearmodes, 400, 2, 0);
