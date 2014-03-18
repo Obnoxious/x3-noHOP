@@ -1263,11 +1263,11 @@ static MODCMD_FUNC(cmd_kill)
 	struct userNode *target;
 	char *reason;
 
-	if (argc < 2) {
-		reason = alloca(strlen(OSMSG__KILL_REQUESTED)+strlen(user->nick)+1);
+	if (argc <= 2) {
+		reason = alloca(strlen(OSMSG_KILL_REQUESTED)+strlen(user->nick)+1);
 		sprintf(reason, OSMSG_KILL_REQUESTED, user->nick);
 	} else {
-		reason = unsplit_string(argv+1, argc-1, NULL);
+		reason = unsplit_string(argv+2, argc-2, NULL);
 	}
 
 	target = GetUserH(argv[1]);
