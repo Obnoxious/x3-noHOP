@@ -41,7 +41,7 @@
             "  $b$b",
             "  $bGAG$b         Cause the services to ignore... ",
             "  $bUNGAG$b       ...or unignore by mask."
-            " $b$b",
+            "  $b$b",
             "  $bKILL$b        Kill a user. ",
             );
 
@@ -313,7 +313,7 @@
 
 "KILL" ("$b/msg $O kill <nick> [reason]",
         "Kill a user based on nick.",
-		"Access level: $b${level/kill}$b",
+        "Access level: $b${level/kill}$b",
        );
 
 "TRACE CRITERIA" ("$bTRACE CRITERIA$b",
