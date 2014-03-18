@@ -194,9 +194,6 @@ shun_find(const char *target)
     res = dict_find(shun_dict, target, NULL);
     if (res)
         return res;
-    /* Stock ircu requires BADCHANs to match exactly. */
-    if ((target[0] == '#') || (target[0] == '&'))
-        return NULL;
     else if (target[strcspn(target, "*?")]) {
         /* Wildcard: do an obnoxiously long search. */
         for (it = dict_first(shun_dict); it; it = iter_next(it)) {
