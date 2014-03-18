@@ -434,8 +434,8 @@ static const struct message_entry msgtab[] = {
     { "OSMSG_PRIV_UNKNOWN", "Unknown privilege flag %s, see /msg $O HELP PRIVFLAGS for a flag list" },
     { "OSMSG_PRIV_SET",     "Privilege flag %s has been %sset" },
 
-	{ "OSMSG_KILL_OPER", "$b%s$b is an Oper and may not be killed." },
-	{ "OSMSG_KILL_ISSUED", "Killed $b%s$b." },
+    { "OSMSG_KILL_OPER", "$b%s$b is an Oper and may not be killed." },
+    { "OSMSG_KILL_ISSUED", "Killed $b%s$b." },
 
     { NULL, NULL }
 };
@@ -7236,7 +7236,7 @@ init_opserv(const char *nick)
     opserv_define_func("ADDTRUST", cmd_addtrust, 800, 0, 5);
     opserv_define_func("BAN", cmd_ban, 100, 2, 2);
     opserv_define_func("BLOCK", cmd_block, 100, 0, 2);
-	opserv_define_func("KILL", cmd_kill, 100, 0, 2);
+    opserv_define_func("KILL", cmd_kill, 100, 0, 2);
     opserv_define_func("CHANINFO", cmd_chaninfo, 0, 3, 0);
     opserv_define_func("CLEARBANS", cmd_clearbans, 300, 2, 0);
     opserv_define_func("CLEARMODES", cmd_clearmodes, 400, 2, 0);
