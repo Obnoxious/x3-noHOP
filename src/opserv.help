@@ -41,6 +41,8 @@
             "  $b$b",
             "  $bGAG$b         Cause the services to ignore... ",
             "  $bUNGAG$b       ...or unignore by mask."
+            " $b$b",
+            "  $bKILL$b        Kill a user. ",
             );
 
 "USER"     (
@@ -308,6 +310,11 @@
         "Note: By default, IRC operators are not affected by the KILL, GLINE, SHUN or GAG actions.  You can override this by specifying the $bABUSE OPERS$b criteria for a trace.  Even if you do specify $bABUSE OPERS$b, it will not affect opers at your access level or above.",
         "$uSee Also:$u trace criteria, trace"
         );
+
+"KILL" ("$b/msg $O kill <nick> [reason]",
+        "Kill a user based on nick.",
+		"Access level: $b${level/kill}$b",
+       );
 
 "TRACE CRITERIA" ("$bTRACE CRITERIA$b",
         "Criteria and values for $btrace$b (a search with $btrace$b must match all specified items):",
