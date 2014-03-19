@@ -384,7 +384,7 @@
         "Criteria and values for $bcsearch$b (a search with $bcsearch$b must match all specified items):",
         "$bNAME$b name              Specifies a name to search for.",
         "$bTOPIC$b topic            Specifies a topic to search for.",
-	"$bUSERS$b cmp              User count constraint (<Nu, <=Nu, =Nu, >=Nu or >Nu)",
+        "$bUSERS$b cmp              User count constraint (<Nu, <=Nu, =Nu, >=Nu or >Nu)",
         "$bTIMESTAMP$b cmp          Timestamp constraint (<Nu, <=Nu, =Nu, >=Nu or >Nu; supports interval notation)",
         "$bLIMIT$b 50               Limits the number of responses to a certain number."
         );
@@ -436,10 +436,10 @@
         );
 
 "UNBAN" ("/msg $O UNBAN <#channel> <hostmask>",
-	"Unbans the specified hostmask from the specified channel.",
-	"If the channel is omitted, the $bunban$b will be done in the channel where the command was given.",
+        "Unbans the specified hostmask from the specified channel.",
+        "If the channel is omitted, the $bunban$b will be done in the channel where the command was given.",
         "Access level: $b${level/unban}$b",
-	"$uSee Also:$u kickban, kickbanall, ban"
+        "$uSee Also:$u kickban, kickbanall, ban"
         );
 
 "CLEARBANS" ("/msg $O CLEARBANS <#channel> ",
@@ -592,7 +592,7 @@
         "Options for the action in $bgtrace$b are:",
         "$bPRINT$b: Display the glines (mask, issuer, expiration time, reason)",
         "$bCOUNT$b: Count the number of matching glines",
-	"$bUNGLINE$b: Remove matching glines",
+        "$bUNGLINE$b: Remove matching glines",
         "$uSee Also:$u gtrace criteria, gtrace"
         );
 
@@ -611,9 +611,9 @@
         );
 
 "GSYNC" ("/msg $O GSYNC [server]",
-	"Requests a list of GLINES from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
+        "Requests a list of GLINES from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
         "Access level: $b${level/gsync}$b",
-	"$uSee Also:$u refreshg, gline, ungline"
+        "$uSee Also:$u refreshg, gline, ungline"
         );
 
 "DEFCON" ("/msg $O DEFCON [1|2|3|4|5]",
@@ -684,9 +684,9 @@
         );
 
 "SSYNC" ("/msg $O SSYNC [server]",
-	"Requests a list of SHUNS from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
+        "Requests a list of SHUNS from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
         "Access level: $b${level/ssync}$b",
-	"$uSee Also:$u refreshs, shun, unshun"
+        "$uSee Also:$u refreshs, shun, unshun"
         );
 
 "REFRESHS" ("/msg $O REFRESHS [server]",
@@ -720,9 +720,9 @@
         );
 
 "JUPE" ("/msg $O JUPE <srvname> <srvnum> <description>",
-	"Causes X3 to create a \"juped\" (dummy) server.  This can be used to prevent a poorly connected server from connecting.",
+        "Causes X3 to create a \"juped\" (dummy) server.  This can be used to prevent a poorly connected server from connecting.",
         "Access level: $b${level/jupe}$b",
-	"$uSee Also:$u unjupe, clone, reserve"
+        "$uSee Also:$u unjupe, clone, reserve"
         );
 
 "RESERVE" ("/msg $O RESERVE <nickname> <user> <host> <comment>",
@@ -732,9 +732,9 @@
         );
 
 "UNJUPE" ("/msg $O UNJUPE <srvname>",
-	"Causes X3 to unjupe a jupe server.",
+        "Causes X3 to unjupe a jupe server.",
         "Access level: $b${level/unjupe}$b",
-	"$uSee Also:$u jupe, unreserve, clone"
+        "$uSee Also:$u jupe, unreserve, clone"
         );
 
 "ROUTING ADDPLAN" ("/msg $O ROUTING ADDPLAN <name>",
@@ -830,10 +830,10 @@
         );
 
 "PRIVSET" ("/msg $O PRIVSET <nick> <+/-flag>",
-           "Allows $O to set flags on users.",
-           "Access level: $b${level/privset}$b",
-           "$uSee also: privflags"
-          );
+        "Allows $O to set flags on users.",
+        "Access level: $b${level/privset}$b",
+        "$uSee also: privflags"
+        );
 
 "UNRESERVE" ("/msg $O UNRESERVE <nick>",
         "Removes a nick from $b$O's$b reserve list.",
