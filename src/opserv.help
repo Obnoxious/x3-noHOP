@@ -572,8 +572,8 @@
         "$uSee Also:$u gline, ungline"
         );
 
-"GLINE" ("/msg $O GLINE <user@host> <duration> <reason>",
-        "Issues a GLINE (network ban) on the network for the speicified user@host for the specified duration (making the expiration time: net time + duration).",
+"GLINE" ("/msg $O GLINE <user@host OR #channel> <duration> <reason>",
+        "Issues a GLINE (network ban) on the network for the specified user@host or #channel for the specified duration (making the expiration time: net time + duration).",
         "duration is in the form nnm, where nn is a number, and m is a charactor representing the unit (eg d for days.)",
         "Access level: $b${level/gline}$b",
         "$uSee Also:$u trace, ungline, ($C) durations"
@@ -624,7 +624,7 @@
         "$uSee Also:$u gline, ungline, gsync"
         );
 
-"UNGLINE" ("/msg $O UNGLINE <user@host>",
+"UNGLINE" ("/msg $O UNGLINE <user@host OR #channel>",
         "Removes a gline from the network before it expires.",
         "Access level: $b${level/ungline}$b",
         "$uSee Also:$u gline"
