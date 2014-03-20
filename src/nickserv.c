@@ -3123,7 +3123,7 @@ nickserv_apply_flags(struct userNode *user, struct handle_info *hi, const char *
     unsigned long before, after, added, removed;
     struct userNode *uNode;
 
-    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|);
+    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER);
     if (!nickserv_modify_handle_flags(user, nickserv, flags, &added, &removed))
         return 0;
     hi->flags = (hi->flags | added) & ~removed;
