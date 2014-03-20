@@ -7346,7 +7346,7 @@ init_opserv(const char *nick)
     opserv_define_func("UNGLINE", cmd_ungline, 600, 0, 2);
     modcmd_register(opserv_module, "GTRACE UNGLINE", NULL, 0, 0, "template", "ungline", NULL);
     opserv_define_func("UNSHUN", cmd_unshun, 600, 0, 2);
-    modcmd_register(opserv_module, "GTRACE UNSHUN", NULL, 0, 0, "template", "unshun", NULL);
+    modcmd_register(opserv_module, "STRACE UNSHUN", NULL, 0, 0, "template", "unshun", NULL);
     opserv_define_func("UNJUPE", cmd_unjupe, 900, 0, 2);
     opserv_define_func("UNRESERVE", cmd_unreserve, 800, 0, 2);
 /*    opserv_define_func("UNWARN", cmd_unwarn, 800, 0, 0); */
