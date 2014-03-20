@@ -3123,11 +3123,11 @@ nickserv_apply_flags(struct userNode *user, struct handle_info *hi, const char *
     unsigned long before, after, added, removed;
     struct userNode *uNode;
 
-    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|HI_FLAG_ADMINSERV_OPER|HI_FLAG_ADMINSERV_ADMIN);
+    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|);
     if (!nickserv_modify_handle_flags(user, nickserv, flags, &added, &removed))
         return 0;
     hi->flags = (hi->flags | added) & ~removed;
-    after = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|HI_FLAG_ADMINSERV_OPER|HI_FLAG_ADMINSERV_ADMIN);
+    after = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER);
 
     /* Strip helping flag if they're only a support helper and not
      * currently in #support. */
