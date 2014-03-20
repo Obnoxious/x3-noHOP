@@ -183,6 +183,8 @@
             "uc_H" "800"; // net helper (upper case H)
             "S" "999";    // O3 access suspended
             "b" "1";      // Bot (Hidden from !staff etc)
+            "a" "999";	  // Adminserv admin
+            "o" "999";    // adminserv oper
         };
 
         // and for who can change epithets for staff
@@ -687,8 +689,8 @@
 	/* AdminServ is a pseudo-opserv used by non-opers to do cool stuff.
 	 */
     "adminserv" {
-        "bot" "AdminServ";
-        "modes" "+k";
+	"bot" "AdminServ";
+	"modes "+ioK";
     };
 
     "qserver" {
