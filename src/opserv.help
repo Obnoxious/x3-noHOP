@@ -43,6 +43,7 @@
             "  $bUNGAG$b       ...or unignore by mask.",
             "  $b$b",
             "  $bKILL$b        Kill a user. ",
+            "  $bMARK$b        Mark a user. ",
             );
 
 "USER"     (
