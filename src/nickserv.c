@@ -3127,19 +3127,6 @@ nickserv_apply_flags(struct userNode *user, struct handle_info *hi, const char *
     hi->flags = (hi->flags | added) & ~removed;
     after = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER);
 
-    /* Strip helping flag if they're only a support helper and not
-     * currently in #support. */
-    if (HANDLE_FLAGGED(hi, HELPING) && (after == HI_FLAG_SUPPORT_HELPER)) {
-        struct channelList *schannels;
-        unsigned int ii;
-        schannels = chanserv_support_channels();
-        for (ii = 0; ii < schannels->used; ++ii)
-            if (find_handle_in_channel(schannels->list[ii], hi, NULL))
-                break;
-        if (ii == schannels->used)
-            HANDLE_CLEAR_FLAG(hi, HELPING);
-    }
-
     if (after && !before) {
         /* Add user to current helper list. */
         for (uNode = hi->users; uNode; uNode = uNode->next_authed)
