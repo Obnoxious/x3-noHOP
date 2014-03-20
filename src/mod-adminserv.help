@@ -1,0 +1,32 @@
+"<INDEX>"    (
+               " $S provides Help Oper Services for the Network.    ",
+               " Please choose from the following categories:       ",
+               "   $bINFORMATION$b  Get information about users     ",
+               "                    or channels.                    ",
+			   "   $bDISCIPLINE$b   Commands to punish users.       "
+);
+"COMMANDS"   ("The following commands are available in $S:",
+                "${index}",
+                "$uSee also$u: index");
+"INDEX"      ("The following commands are available in $S:",
+                "${index}",
+                "$uSee also$u: commands");
+
+"DISCIPLINE" (
+               "  $bGLINE$b         Global ban on host or channel.  ",
+               "  $bUNGLINE$b       Remove a GLINE.                 ",
+               "  $bBLOCK$b         GLINE by nickname.              ",
+               "  $bSHUN$b          Global shun a host.             ",
+			   "  $bUNSHUN$b        Remove a SHUN.                  ",
+               "  $bSBLOCK$b        SHUN by nickname.               ",
+			   "  $bKILL$b          Kill a user.                    "
+);
+
+"INFORMATION" (
+                "  $bCSEARCH$b       Search channels.                ",
+                "  $bGTRACE$b        Search through glines.          ",
+				"  $bSTRACE$b        Search through SHUNs.           ",
+				"  $bTRACE$b         Search and interact with stuff. ",
+                "  $bWHOIS$b         Very pretty whois function.     "
+);
+
