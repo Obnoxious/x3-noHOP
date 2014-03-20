@@ -93,6 +93,8 @@ static const struct message_entry msgtab[] = {
     { "MCMSG_NEED_NOTHING", "Anyone may use the $b%s$b command." },
     { "MCMSG_NEED_STAFF_ACCESS", "You must be network staff." },
     { "MCMSG_NEED_STAFF_OPER", "You must be an IRC operator." },
+    { "MCMSG_NEED_STAFF_ADMINSERV_ADMIN", "You must be an AdminServ Administrator" },
+    { "MCMSG_NEED_STAFF_ADMINSERV_OPER", "You must be an AdminServ Operator" },
     { "MCMSG_NEED_STAFF_NETHELPER", "You must be a network helper." },
     { "MCMSG_NEED_STAFF_NETHELPER_OR_OPER", "You must be a network helper or IRC operator." },
     { "MCMSG_NEED_STAFF_SHELPER", "You must be a support helper." },
@@ -169,6 +171,8 @@ static struct modcmd_flag {
     { "qualified", MODCMD_REQUIRE_QUALIFIED },
     { "regchan", MODCMD_REQUIRE_REGCHAN },
     { "supporthelper", MODCMD_REQUIRE_SUPPORT_HELPER },
+    { "adminservoper", MODCMD_REQUIRE_ADMINSERV_OPER },
+    { "adminservadmin", MODCMD_REQUIRE_ADMINSERV_ADMIN },
     { "toy", MODCMD_TOY },
     { NULL, 0 }
 };
@@ -543,6 +547,8 @@ svccmd_can_invoke(struct userNode *user, struct userNode *bot, struct svccmd *cm
     }
     if (flags & MODCMD_REQUIRE_STAFF) {
         if (((flags & MODCMD_REQUIRE_OPER) && IsOper(user))
+            || ((flags & MODCMD_REQUIRE_ADMINSERV_ADMIN) && IsAdminServAdmin(user))
+            || ((flags & MODCMD_REQUIRE_ADMINSERV_OPER) && IsAdminServOper(user))
 	    || ((flags & MODCMD_REQUIRE_NETWORK_HELPER) && IsNetworkHelper(user))
             || ((flags & MODCMD_REQUIRE_SUPPORT_HELPER) && IsSupportHelper(user))) {
             /* allow it */
@@ -1489,6 +1495,12 @@ static MODCMD_FUNC(cmd_command) {
         case MODCMD_REQUIRE_OPER:
             fmt_str = "MCMSG_NEED_STAFF_OPER";
             break;
+        case MODCMD_REQUIRE_ADMINSERV_ADMIN:
+            fmt_str = "MCMSG_NEED_STAFF_ADMINSERV_ADMIN";
+            break;
+        case MODCMD_REQUIRE_ADMINSERV_OPER:
+            fmt_str = "MCMSG_NEED_STAFF_ADMINSERV_OPER";
+            break;
         case MODCMD_REQUIRE_NETWORK_HELPER:
             fmt_str = "MCMSG_NEED_STAFF_NETHELPER";
             break;
@@ -1871,7 +1883,9 @@ static MODCMD_FUNC(cmd_showcommands) {
             else if (flags & MODCMD_REQUIRE_STAFF) {
                 if (flags & MODCMD_REQUIRE_OPER)
                     access_name = "oper";
-                else if (flags & MODCMD_REQUIRE_NETWORK_HELPER)
+		else if (flags & MODCMD_REQUIRE_ADMINSERV_OPER)
+		    access_name = "adminserv.oper";
+                else (flags & MODCMD_REQUIRE_NETWORK_HELPER)
                     access_name = "net.helper";
                 else
                     access_name = "staff";

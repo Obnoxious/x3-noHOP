@@ -1797,6 +1797,8 @@ static NICKSERV_FUNC(cmd_handleinfo)
 
     if (HANDLE_FLAGGED(hi, SUPPORT_HELPER)
         || HANDLE_FLAGGED(hi, NETWORK_HELPER)
+	|| HANDLE_FLAGGED(hi, ADMINSERV_OPER)
+	|| HANDLE_FLAGGED(hi, ADMINSERV_ADMIN)
         || (hi->opserv_level > 0)) {
         reply("NSMSG_HANDLEINFO_EPITHET", (hi->epithet ? hi->epithet : nsmsg_none));
     }
@@ -2550,7 +2552,7 @@ static NICKSERV_FUNC(cmd_allowauth)
             reply("MSG_USER_OUTRANKED", hi->handle);
             return 0;
         }
-        if (((hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER))
+        if (((hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|HI_FLAG_ADMINSERV_OPER|HI_FLAG_ADMINSERV_ADMIN))
              || (hi->opserv_level > 0))
             && ((argc < 4) || irccasecmp(argv[3], "staff"))) {
             reply("NSMSG_ALLOWAUTH_STAFF", hi->handle);
@@ -3121,11 +3123,11 @@ nickserv_apply_flags(struct userNode *user, struct handle_info *hi, const char *
     unsigned long before, after, added, removed;
     struct userNode *uNode;
 
-    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER);
+    before = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|HI_FLAG_ADMINSERV_OPER|HI_FLAG_ADMINSERV_ADMIN);
     if (!nickserv_modify_handle_flags(user, nickserv, flags, &added, &removed))
         return 0;
     hi->flags = (hi->flags | added) & ~removed;
-    after = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER);
+    after = hi->flags & (HI_FLAG_SUPPORT_HELPER|HI_FLAG_NETWORK_HELPER|HI_FLAG_ADMINSERV_OPER|HI_FLAG_ADMINSERV_ADMIN);
 
     /* Strip helping flag if they're only a support helper and not
      * currently in #support. */
@@ -5943,6 +5945,11 @@ init_nickserv(const char *nick)
     for (i=0; handle_flags[i]; i++) {
         handle_inverse_flags[(unsigned char)handle_flags[i]] = i + 1;
         flag_access_levels[i] = 0;
+	/* require min opserv access to change adminserv flags */
+	if ((unsigned char)handle_flags[i] == 'o')
+		flag_access_levels[i] = 999;
+	if ((unsigned char)handle_flags[i] == 'a')
+		flag_access_levels[i] = 999;
     }
 
     conf_register_reload(nickserv_conf_read);

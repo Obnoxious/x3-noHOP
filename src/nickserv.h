@@ -42,8 +42,10 @@ struct svccmd;
 #define HI_FLAG_BOT            0x00000200
 #define HI_FLAG_AUTOHIDE       0x00000400
 #define HI_FLAG_ADVANCED       0x00000800
+#define HI_FLAG_ADMINSERV_OPER        0x00001000
+#define HI_FLAG_ADMINSERV_ADMIN       0x00002000
 /* Flag characters for the above.  First char is LSB, etc. */
-#define HANDLE_FLAGS "SphgscfnHbx"
+#define HANDLE_FLAGS "SphgscfnHbxoa"
 
 /* HI_STYLE_* go into handle_info.userlist_style */
 #define HI_STYLE_NORMAL	       'n'
@@ -61,11 +63,13 @@ struct svccmd;
 #define HANDLE_TOGGLE_FLAG(hi, tok) ((hi)->flags ^= HI_FLAG_##tok)
 #define HANDLE_CLEAR_FLAG(hi, tok) ((hi)->flags &= ~HI_FLAG_##tok)
 
+#define IsAdminServOper(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, ADMINSERV_OPER))
+#define IsAdminServAdmin(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, ADMINSERV_ADMIN))
 #define IsSupportHelper(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, SUPPORT_HELPER))
 #define IsNetworkHelper(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, NETWORK_HELPER))
 #define IsHelper(user) (IsSupportHelper(user) || IsNetworkHelper(user))
 #define IsHelping(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, HELPING))
-#define IsStaff(user) (IsOper(user) || IsSupportHelper(user) || IsNetworkHelper(user))
+#define IsStaff(user) (IsOper(user) || IsAdminServOper(user) || IsAdminServAdmin(user) || IsSupportHelper(user) || IsNetworkHelper(user))
 #define IsBot(user) (user->handle_info && HANDLE_FLAGGED(user->handle_info, BOT))
 
 enum cookie_type {
