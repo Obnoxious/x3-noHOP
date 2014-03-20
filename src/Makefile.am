@@ -39,7 +39,11 @@ EXTRA_x3_SOURCES = \
 	main-common.c \
 	proto-common.c \
 	proto-p10.c \
+<<<<<<< HEAD
     mod-adminserv.c \
+=======
+	mod-adminserv.c \
+>>>>>>> matildel/master
 	mod-blacklist.c \
 	mod-snoop.c \
 	mod-track.c \
