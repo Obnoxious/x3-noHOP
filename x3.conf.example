@@ -686,8 +686,7 @@
                                 // to 0 to disable message expiration
         "limit" "30"; // Max amount of messages a person can get.
     };
-	/* AdminServ is a pseudo-opserv used by non-opers to do cool stuff.
-	 */
+
     "adminserv" {
 	"bot" "AdminServ";
 	"modes "+ioK";

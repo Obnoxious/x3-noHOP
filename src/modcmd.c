@@ -1883,9 +1883,7 @@ static MODCMD_FUNC(cmd_showcommands) {
             else if (flags & MODCMD_REQUIRE_STAFF) {
                 if (flags & MODCMD_REQUIRE_OPER)
                     access_name = "oper";
-		else if (flags & MODCMD_REQUIRE_ADMINSERV_OPER)
-		    access_name = "adminserv.oper";
-                else (flags & MODCMD_REQUIRE_NETWORK_HELPER)
+                else if (flags & MODCMD_REQUIRE_NETWORK_HELPER)
                     access_name = "net.helper";
                 else
                     access_name = "staff";
