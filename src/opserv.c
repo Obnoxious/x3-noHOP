@@ -2103,7 +2103,7 @@ static MODCMD_FUNC(cmd_whois)
          */
         if (target->latitude && target->longitude && target->city) {
             char map_url[MAXLEN];
-            snprintf(map_url, sizeof(map_url), "http://www.mapquest.com/maps/map.adp?searchtype=address&formtype=address&latlongtype=decimal&latitude=%f&longitude=%f",
+			snprintf(map_url, sizeof(map_url), "https://www.google.com/maps/preview/@%f,%f,10z",
                      target->latitude, target->longitude);
             reply("OSMSG_WHOIS_MAP", map_url);
         }
