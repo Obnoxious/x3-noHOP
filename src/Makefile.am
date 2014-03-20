@@ -38,6 +38,7 @@ EXTRA_x3_SOURCES = \
 	main-common.c \
 	proto-common.c \
 	proto-p10.c \
+	mod-adminserv.c \
 	mod-blacklist.c \
 	mod-snoop.c \
 	mod-track.c \
