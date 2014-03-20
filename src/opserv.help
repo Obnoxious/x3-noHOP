@@ -1,8 +1,8 @@
 "<INDEX>"  (
-            " $O provides Oper Services for the Network.    ",
+            " $S provides Oper Services for the Network.    ",
             " Please choose from the following categories:  ",
             "  $bINFORMATION$b Get information about users. ",
-            "              or $O, $C, and $N.           ",
+            "              or $S, $C, and $N.           ",
             "  $bPUNISH$b      Commands to discipline users.",
             "  $bCHANNEL$b     Channel commands.            ",
             "  $bUSER$b        User commands.               ",
@@ -17,12 +17,12 @@
             "  $bSETTINGS$b    View and temporarily change  ",
             "              config file settings.        ",
             "  $bADMIN$b       Misc Administrator Commands. ",
-            "  $bOWNERONLY$b   $O operator only commands.   "
+            "  $bOWNERONLY$b   $S operator only commands.   "
 );
-"COMMANDS" ("The following commands are available in $O:",
+"COMMANDS" ("The following commands are available in $S:",
             "${index}",
             "$uSee Also$u: modcmd, access, command");
-"INDEX" ("The following commands are available in $O:",
+"INDEX" ("The following commands are available in $S:",
             "${index}",
             "$uSee Also$u: modcmd, access, command");
 
@@ -50,15 +50,15 @@
             " $bSVSJOIN$b      Force a user to join a channel.",
             " $bSVSPART$b      Force a user to part a channel.",
             " $bSVSNICK$b      Force a user to change nicks.",
-            " $bACCESS$b       Show/modify $O access level of a user."
+            " $bACCESS$b       Show/modify $S access level of a user."
            );
 
 "INFORMATION"  (
-                "  $bACCESS$b  Shows a users $O access level.",
+                "  $bACCESS$b  Shows a users $S access level.",
                 "  $bSTATS$b   Show various lists and runtime info.",
                 "  $bWHOIS$b   Show details about a user by nick.",
-                "  $bVERSION$b Show the $O version information.",
-                "  $bLOG$b     View $O logs.",
+                "  $bVERSION$b Show the $S version information.",
+                "  $bLOG$b     View $S logs.",
                 "  $bTRACES$b  Powerfull commands for viewing or acting on lists of IRC objects."
                );
 
@@ -70,7 +70,7 @@
            );
 
 "ALERTS"   (
-            "  $bADDALERT$b  Make $O automatically do something",
+            "  $bADDALERT$b  Make $S automatically do something",
             "            when users match a criteria.",
             "  $bDELALERT$b  Remove an alert.",
             "  $bSTATS ALERTS$b See a listing of alerts. "
@@ -95,7 +95,7 @@
             " The Auto Routing System: ",
             " $b$b",
             " $bSTATS ROUTING$b     Shows everything about the auto routing configuration.",
-            " $bROUTING ADDPLAN$b   Creates a new routing plan. Routing plans are a collection of server linking information that $O uses to decide how to route.",
+            " $bROUTING ADDPLAN$b   Creates a new routing plan. Routing plans are a collection of server linking information that $S uses to decide how to route.",
             " $bROUTING DELPLAN$b   Deletes a routing plan (and all its servers).",
             " $bROUTING ADDSERVER$b Adds server linking information to a plan.",
             " $bROUTING DELSERVER$b Deletes a server from a routing plan.",
@@ -103,7 +103,7 @@
             " $bROUTING MAP$b       Show what the active routing plan says the network should look like.",
             " $bREROUTE$b           Connect servers to the network, optionally squiting them first to change the routing.",
             " $b$b ",
-            " Start by creating a routing plan, and then adding servers to it, with their listning port, uplink, and a backup uplink. You can view it in $bSTATS ROUTING planname$b. Take care not to create loops, and that you make everything connected. Then set your new plan ACTIVE using $bROUTING SET$b. $O does the rest! See help topic $bROUTING EXAMPLE$b for a working example."
+            " Start by creating a routing plan, and then adding servers to it, with their listning port, uplink, and a backup uplink. You can view it in $bSTATS ROUTING planname$b. Take care not to create loops, and that you make everything connected. Then set your new plan ACTIVE using $bROUTING SET$b. $S does the rest! See help topic $bROUTING EXAMPLE$b for a working example."
             );
 
 "CHANNEL"  (
@@ -143,15 +143,15 @@
            );
 
 "ADMIN"    (
-            "  $bACCESS$b  Modify someone's $O access level.",
+            "  $bACCESS$b  Modify someone's $S access level.",
             "  $bCOMMAND$b      Show details of a command.",
             "  $bSHOWCOMMANDS$b List all commands and required access levels.",
             "  $b$b",
             "  $bBANEMAIL$b     Ban an email address from being used by the email system.",
             "  $bUNBANEMAIL$b   Remove an email ban.",
             "  $b$b",
-            "  $bJOIN$b         Make $O join a channel.",
-            "  $bPART$b         Make $O leave a channel.",
+            "  $bJOIN$b         Make $S join a channel.",
+            "  $bPART$b         Make $S leave a channel.",
             "  $b$b",
             "  $bCLONE$b        Create and manipulate a fake user.",
             "  $bCOLLIDE$b      Create a clone, colliding an existing user.",
@@ -206,15 +206,15 @@
             );
 
 
-"ACCESS" ("/msg $O ACCESS [nick|*account] [new-level]",
-        "Displays the $O access level for the specified user or account.  With no arguments, displays your own access level.  With two arguments, sets the target's $O access level to the second argument (assuming you have sufficient access to do so).",
+"ACCESS" ("/msg $S ACCESS [nick|*account] [new-level]",
+        "Displays the $S access level for the specified user or account.  With no arguments, displays your own access level.  With two arguments, sets the target's $O access level to the second argument (assuming you have sufficient access to do so).",
         "\"ACCESS *\" will show the access levels of everyone.",
         "Access level: $b${level/access}$b",
         "$uSee Also:$u commands, modcmd"
         );
 
-"ADDALERT" ("/msg $O ADDALERT <name> <reaction> [expire <duration>] <criteria>",
-        "Adds the specified alert to the $b$O$b alert list.",
+"ADDALERT" ("/msg $S ADDALERT <name> <reaction> [expire <duration>] <criteria>",
+        "Adds the specified alert to the $b$S$b alert list.",
         "Alerts watch for users matching a givin criteria and perform an action on them.",
         "   <name> - An alphanumeric word to identify this alert in the list",
         "   <reaction> - What to do if a user matches the criteria. See $bALERT REACTION$b.",
@@ -239,7 +239,7 @@
                  "      5h20m30s - 5 hours 20 minutes and 30 seconds "
                  ); 
 
-"ADDTRUST" ("/msg $O ADDTRUST <ip> <count> <duration> <reason>",
+"ADDTRUST" ("/msg $S ADDTRUST <ip> <count> <duration> <reason>",
         "Extends the clone kill limit for the specified <ip> to <count> for <duration>.",
         "<duration> uses $btime  notation$b",
         "You may use 0 as the duration if you do not wish the trust to ever expire, and 0 as the count for unlimited connections.",
@@ -249,10 +249,10 @@
 
 "ALERT REACTION" ("$bALERT REACTION$b",
         "Valid alert actions (to be taken when an alert is hit) are:",
-        "$bNOTICE$b:       Send a notice to the $b$O$b alert channel",
+        "$bNOTICE$b:       Send a notice to the $b$S$b alert channel",
         "$bKILL$b:         Disconnect the user",
         "$bGLINE$b:        Gline the user that tripped the alert",
-        "$bTRACK$b:        Send a notice to the $b$O$b alert channel and track the user (if the tracking module is loaded)",
+        "$bTRACK$b:        Send a notice to the $b$S$b alert channel and track the user (if the tracking module is loaded)",
         "$bSHUN$b:         Shun the user that tripped the alert",
         "$bVERSION$b:      Check the version on the user that tripped the alert",
         "$bSVSJOIN$b:      Force the user that tripped the alert to join the target channel",
@@ -261,31 +261,31 @@
         "$uSee Also:$u addalert, delalert"
         );
 
-"DELALERT" ("/msg $O DELALERT <alert> [alert]...",
-        "Remove the specified alerts from the $b$O$b alert list.",
+"DELALERT" ("/msg $S DELALERT <alert> [alert]...",
+        "Remove the specified alerts from the $b$S$b alert list.",
         "Access level: $b${level/delalert}$b",
         "$uSee Also:$u addalert, stats"
         );
 
-"DELTRUST" ("/msg $O DELTRUST <ip>",
-        "Deletes a trusted IP from $b$O's$b trusted hosts list. A trusted IP address is exempted from normal client limits. A list of currently trusted IPs is displayed by $bstats trusted$b.",
+"DELTRUST" ("/msg $S DELTRUST <ip>",
+        "Deletes a trusted IP from $b$S's$b trusted hosts list. A trusted IP address is exempted from normal client limits. A list of currently trusted IPs is displayed by $bstats trusted$b.",
         "Access level: $b${level/deltrust}$b",
         "$uSee Also:$u addtrust, edittrust, stats"
         );
-"EDITTRUST" ("/msg $O EDITTRUST <ip> <count> <duration> <reason>",
+"EDITTRUST" ("/msg $S EDITTRUST <ip> <count> <duration> <reason>",
         "Edits the 'trust' for the specified IP, changing the count, duration and/or reason.",
         "You may use 0 as the duration if you do not wish the trust to ever expire, and 0 as the count for unlimited connections.",
         "$uSee Also:$u addtrust, deltrust, stats trusted");
-"INVITE" ("/msg $O INVITE #channel",
+"INVITE" ("/msg $S INVITE #channel",
         "Invites you to the specified channel.");
-"INVITEME" ("/msg $O INVITEME [nick]",
-        "Invites the specified user (if omitted, you) to $O's debug channel.",
+"INVITEME" ("/msg $S INVITEME [nick]",
+        "Invites the specified user (if omitted, you) to $S's debug channel.",
         "This is currently pointless, since no output is sent to the debug channel.",
         "Access level: $b${level/inviteme}$b",
         "$uSee Also:$u invite, clearmodes, clearbans"
         );
         
-"TRACE" ("/msg $O TRACE <action> <criteria> <value> [<criteria> <value>]...",
+"TRACE" ("/msg $S TRACE <action> <criteria> <value> [<criteria> <value>]...",
         "Searches through the current users for those matching the specified criteria, and applies the specified action to them. A detailed list of actions can be found in $bhelp trace action$b and a list of criteria in $bhelp trace criteria$b.",
         "Quick Ref ACTIONS: PRINT, COUNT, PRIVMSG, NOTICE, KILL, GLINE, SHUN, GAG, DOMAINS, SVSJOIN, SVSPART, VERSION",
         "Quick Ref CRITERIA: MASK, NICK, IDENT, HOST, INFO, SERVER, IP, ACCOUNT, AUTHED, CHANNEL, NUMCHANNELS, LIMIT, NICKAGE, ACCESS, REASON, DEPTH, DURATION, CLONES, INFO_SPACE, CHECKRESTRICTIONS ABUSE OPERS, LOG, REGEX, CHANTARGET, SILENT, VERSION, MARKED, MODES",
@@ -312,7 +312,7 @@
         "$uSee Also:$u trace criteria, trace"
         );
 
-"KILL" ("$b/msg $O kill <nick> [reason]",
+"KILL" ("$b/msg $S kill <nick> [reason]",
         "Kill a user based on nick.",
         "Access level: $b${level/kill}$b",
        );
@@ -342,7 +342,7 @@
         "$bABUSE OPERS$b              Force adverse actions to affect opers as well.",
         "$bABUSE TRUSTED$b            Force adverse actions to affect users on trusted hosts as well.",
         "$bTARGET$b                   Send alert notice to this channel.",
-        "$bLOG$b                      Record matching users in $O's log file (in addition to acting).",
+        "$bLOG$b                      Record matching users in $S's log file (in addition to acting).",
         "$bREGEX$b yes/no             Specifies if NICK/IDENT/HOST/INFO should be treated as a regular expression.",
         "$bSILENT$b yes/no            If yes, AUTO is prepended to the gline message, making the gline silent in nefarious ircd.",
         "$bVERSION$b version          If they have been queried using the VERSION action and responded, they are matched if the reply they give matches.",
@@ -357,18 +357,18 @@
         "$uSee Also:$u trace action, trace",
         );
 
-"WHOIS" ("/msg $O WHOIS <nick>",
+"WHOIS" ("/msg $S WHOIS <nick>",
         "Displays detailed information for the named user.",
         "Access level: $b${level/whois}$b",
         );
 
-"CHANINFO" ("/msg $O CHANINFO <#channel> [users]",
+"CHANINFO" ("/msg $S CHANINFO <#channel> [users]",
         "Displays very detailed information on the specified channel. If the channel is omitted, then $bchaninfo$b will be done on the channel where the command was given.  You must give a second parameter ($busers$b) to list users in the channel.",
         "Access level: $b${level/chaninfo}$b",
         "$uSee Also:$u whois"
         );
 
-"CSEARCH" ("/msg $O CSEARCH <action> <criteria> <value> [<criteria> <value>]...",
+"CSEARCH" ("/msg $S CSEARCH <action> <criteria> <value> [<criteria> <value>]...",
         "Searches through the network's channels for those matching the specified criteria, and applies the specified action to them. A list of actions can be found under $bhelp csearch action$b and a list of criteria in $bhelp csearch criteria$b.",
         "Access level: $b${level/csearch}$b",
         "$uSee Also:$u csearch action, csearch criteria"
@@ -389,45 +389,45 @@
         "$bLIMIT$b 50               Limits the number of responses to a certain number."
         );
 
-"JOIN" ("/msg $O JOIN <#channel> ",
-        "Makes $b$O$b join the specified channel.",
+"JOIN" ("/msg $S JOIN <#channel> ",
+        "Makes $b$S$b join the specified channel.",
         "Access level: $b${level/join}$b",
         "$uSee Also:$u part"
         );
 
-"PART" ("/msg $O PART <#channel> ",
-        "Makes $b$O$b leave the specified channel.",
+"PART" ("/msg $S PART <#channel> ",
+        "Makes $b$S$b leave the specified channel.",
         "Access level: $b${level/part}$b",
         "$uSee Also:$u join"
         );
 
-"ADDBAD" ("/msg $O ADDBAD <word>",
-        "Adds a bad word to $b$O's$b bad word list. Bad words make any channel that has a bad word anywhere in a channel's name illegal. A list of current bad words can be displayed by $bstats bad$b.",
+"ADDBAD" ("/msg $S ADDBAD <word>",
+        "Adds a bad word to $b$S's$b bad word list. Bad words make any channel that has a bad word anywhere in a channel's name illegal. A list of current bad words can be displayed by $bstats bad$b.",
         "Access level: $b${level/addbad}$b",
         "$uSee Also:$u addexempt, delbad, stats bad, $C:noregister"
         );
 
-"ADDEXEMPT" ("/msg $O ADDEXEMPT <#channel>",
-        "Adds a channel to $O's \"exempt\" list.  These channels (and only these channels) are never considered to contain prohibited words.  Note that you $bmust$b specify the whole channel name, and may not use wildcards.",
-        "For example, if you have added $ufree$u to the bad-word list, you could add $u#FreeBSD$u to the exempt list, and anyone could join #FreeBSD.  Users joining #FreeBSDISOz would be kickbanned by $O.",
+"ADDEXEMPT" ("/msg $S ADDEXEMPT <#channel>",
+        "Adds a channel to $S's \"exempt\" list.  These channels (and only these channels) are never considered to contain prohibited words.  Note that you $bmust$b specify the whole channel name, and may not use wildcards.",
+        "For example, if you have added $ufree$u to the bad-word list, you could add $u#FreeBSD$u to the exempt list, and anyone could join #FreeBSD.  Users joining #FreeBSDISOz would be kickbanned by $S.",
         "The current exempt list is displayed with the current bad-words in $bstats bad$b.",
         "Access level: $b${level/addexempt}$b",
         "$uSee Also:$u addbad, delexempt, stats"
         );
 
-"DELBAD" ("/msg $O DELBAD <keyword>",
-        "Deletes a bad word from $b$O's$b bad word list. Bad words make any channel that has a bad word anywhere in a channel's name illegal. A list of current bad words can be displayed by $bstats bad$b.",
+"DELBAD" ("/msg $S DELBAD <keyword>",
+        "Deletes a bad word from $b$S's$b bad word list. Bad words make any channel that has a bad word anywhere in a channel's name illegal. A list of current bad words can be displayed by $bstats bad$b.",
         "Access level: $b${level/delbad}$b",
         "$uSee Also:$u addbad, delexempt, stats bad, $C:allowregister"
         );
 
-"DELEXEMPT" ("/msg $O DELEXEMPT <#channel>",
-        "Removes a channel from $O's bad-word-exempt channel list.",
+"DELEXEMPT" ("/msg $S DELEXEMPT <#channel>",
+        "Removes a channel from $S's bad-word-exempt channel list.",
         "Access level: $b${level/delexempt}$b",
         "$uSee Also:$u addexempt, delbad, stats"
         );
 
-"BAN" ("/msg $O BAN <#channel> <nick|hostmask>",
+"BAN" ("/msg $S BAN <#channel> <nick|hostmask>",
         "Bans the specified hostmask from the specified channel.",
         "If a nick is used instead of hostmask, the hostmask is generated based on the nickname.",
         "If the channel is omitted, the $bban$b will be done in the channel where the command was given.",
@@ -435,124 +435,124 @@
         "$uSee Also:$u kickban, kickbanall, unban"
         );
 
-"UNBAN" ("/msg $O UNBAN <#channel> <hostmask>",
+"UNBAN" ("/msg $S UNBAN <#channel> <hostmask>",
         "Unbans the specified hostmask from the specified channel.",
         "If the channel is omitted, the $bunban$b will be done in the channel where the command was given.",
         "Access level: $b${level/unban}$b",
         "$uSee Also:$u kickban, kickbanall, ban"
         );
 
-"CLEARBANS" ("/msg $O CLEARBANS <#channel> ",
+"CLEARBANS" ("/msg $S CLEARBANS <#channel> ",
         "Clears all bans in the specified channel.",
         "If the channel is omitted, then $bclearbans$b will be done in the channel where the command was given.",
         "Access level: $b${level/clearbans}$b",
         "$uSee Also:$u ban, unban"
         );
 
-"CLEARMODES" ("/msg $O CLEARMODES <#channel> ",
+"CLEARMODES" ("/msg $S CLEARMODES <#channel> ",
         "Clears the specified channel of all modes.",
         "If the channel is omitted, then $bclearmodes$b will be done in the channel where the command was given.",
         "Access level: $b${level/clearmodes}$b",
         "$uSee Also:$u mode"
         );
 
-"DEOP" ("/msg $O DEOP <#channel> <nick> [nick]...",
+"DEOP" ("/msg $S DEOP <#channel> <nick> [nick]...",
         "Deops the specified user from the specified channel.",
         "If the channel is omitted, then $bdeop$b will be done in the channel where the command was given.",
         "Access level: $b${level/deop}$b",
         "$uSee Also:$u deopall, devoiceall, op, opall"
         );
 
-"DEOPALL" ("/msg $O DEOPALL <#channel>",
+"DEOPALL" ("/msg $S DEOPALL <#channel>",
         "Deops all members of the specified channel.",
         "If the channel is omitted, then $bdeopall$b will be done in the channel where the command was given.",
         "Access level: $b${level/deopall}$b",
         "$uSee Also:$u deop, devoiceall, op, opall"
         );
 
-"DEVOICEALL" ("/msg $O DEVOICEALL <#channel>",
+"DEVOICEALL" ("/msg $S DEVOICEALL <#channel>",
         "Devoice all members of the specified channel who do not have channel ops.",
         "If the channel is omitted, then $bdevoiceall$b will be done in the channel where the command was given.",
         "Access level: $b${level/devoiceall}$b",
         "$uSee Also:$u deop, deopall, op, opall"
         );
         
-"KICK" ("/msg $O KICK <#channel> <nick> [reason]",
+"KICK" ("/msg $S KICK <#channel> <nick> [reason]",
         "Kicks the specified user from the specified channel.",
         "If the channel is omitted, then $bkick$b will be done in the channel where the command was given.",
         "Access level: $b${level/kick}$b",
         "$uSee Also:$u ban, kickall, kickban, kickbanall"
         );
-"FORCEKICK" ("/msg $O FORCEKICK <#channel> <nick> [reason]",
+"FORCEKICK" ("/msg $S FORCEKICK <#channel> <nick> [reason]",
         "Kicks the specified user from the specified channel even if he is a channel service (+k).",
         "If the channel is omitted, then $bforcekick$b will be done in the channel where the command was given.",
         "$uSee Also:$u ban, kick, kickall, kickban, kickbanall"
         );
-"KICKALL" ("/msg $O KICKALL <#channel> [reason]",
+"KICKALL" ("/msg $S KICKALL <#channel> [reason]",
         "Kicks all users in the specified channel except for the user issuing the command.",
         "If the channel is omitted, then $bkickall$b will be done in the channel where the command was given.",
         "Access level: $b${level/kickall}$b",
         "$uSee Also:$u ban, kick, kickbanall"
         );
 
-"KICKBAN" ("/msg $O KICKBAN <#channel> <nick> [reason]",
-        "Kicks and bans the specified user. $b$O$b determines the hostmask to ban from the nick specified.",
+"KICKBAN" ("/msg $S KICKBAN <#channel> <nick> [reason]",
+        "Kicks and bans the specified user. $b$S$b determines the hostmask to ban from the nick specified.",
         "If the channel is omitted, then $bkickban$b will be done in the channel where the command was given.",
         "Access level: $b${level/kickban}$b",
         "$uSee Also:$u ban, kickall, kickbanall"
         );
 
-"KICKBANALL" ("/msg $O KICKBANALL <#channel> [reason]",
+"KICKBANALL" ("/msg $S KICKBANALL <#channel> [reason]",
         "Kick and bans all members of the specified channel except for the user issuing the command.",
         "If the channel is omitted, then $bkickbanall$b will be done in the channel where the command was given.",
         "Access level: $b${level/kickbanall}$b",
         "$uSee Also:$u ban, kick, kickban"
         );
 
-"MARK" ("/msg $O MARK <mark>",
+"MARK" ("/msg $S MARK <mark>",
         "Sets a nefarious 'mark' on the user as if they are in <mark> dnsbl. ",
         "(shows in /whois and prefixes their host, for easy banning)",
         "Mark must be a-z0-9 or dash (-) 20 chars or less.",
         "$uSee Also:$u trace action"
         );
 
-"SVSJOIN" ("/msg $O SVSJOIN <nick> <#channel>",
+"SVSJOIN" ("/msg $S SVSJOIN <nick> <#channel>",
         "Forces nick to join #channel",
         "$uSee Also:$u svspart, join, trace action"
         );
 
-"SVSPART" ("/msg $O SVSPART <nick> <#channel>",
+"SVSPART" ("/msg $S SVSPART <nick> <#channel>",
         "Forces nick to part #channel",
         "$uSee Also:$u svsjoin, part, trace action"
         );
 
-"SVSNICK" ("/msg $O SVSNICK <nick> <newnick>",
+"SVSNICK" ("/msg $S SVSNICK <nick> <newnick>",
         "Forces nick to change nick to newnick",
         "$uSee Also:$u svspart, svsjoin"
         );
 
-"MODE" ("/msg $O MODE <#channel> <+/- mode>",
+"MODE" ("/msg $S MODE <#channel> <+/- mode>",
         "Sets the specified modes (but cannot include voice, ban or op changes) on a channel.",
         "If the channel is omitted, then $bmode$b will be done in the channel where the command was given.",
         "Access level: $b${level/mode}$b",
         "$uSee Also:$u ban, deop, kickban, op"
         );
 
-"OP" ("/msg $O OP <#channel> <nick> [nick]...",
+"OP" ("/msg $S OP <#channel> <nick> [nick]...",
         "Ops specified nicknames the specified channel.",
         "If the channel is omitted, then $bop$b will be done in the channel where the command was given.",
         "Access level: $b${level/op}$b",
         "$uSee Also:$u deop, deopall, opall"
         );
 
-"OPALL" ("/msg $O OPALL <#channel>",
+"OPALL" ("/msg $S OPALL <#channel>",
         "Ops all members of the specified channel.",
         "If the channel is omitted, then $bopall$b will be done in the channel where the command was given.",
         "Access level: $b${level/opall}$b",
         "$uSee Also:$u deopall"
         );
 
-"VOICEALL" ("/msg $O VOICEALL <#channel>",
+"VOICEALL" ("/msg $S VOICEALL <#channel>",
         "Voices all members of the specified channel who do not have channel ops.",
         "If the channel is omitted, then $bvoiceall$b will be done in the channel where the command was given.",
         "Access level: $b${level/voiceall}$b",
@@ -569,20 +569,20 @@
         "  UNGLINE  [${level/ungline}]"
         );
 
-"BLOCK" ("/msg $O BLOCK <nick> [duration] [reason]",
+"BLOCK" ("/msg $S BLOCK <nick> [duration] [reason]",
         "GLINES the host of the specified nick for one hour if no duration is given.  If no reason is given, use a default reason.",
         "Access level: $b${level/block}$b",
         "$uSee Also:$u gline, ungline"
         );
 
-"GLINE" ("/msg $O GLINE <user@host OR #channel> <duration> <reason>",
+"GLINE" ("/msg $S GLINE <user@host OR #channel> <duration> <reason>",
         "Issues a GLINE (network ban) on the network for the specified user@host or #channel for the specified duration (making the expiration time: net time + duration).",
         "duration is in the form nnm, where nn is a number, and m is a charactor representing the unit (eg d for days.)",
         "Access level: $b${level/gline}$b",
         "$uSee Also:$u trace, ungline, ($C) durations"
         );
 
-"GTRACE" ("/msg $O GTRACE <action> <criteria> [<criteria> <value>]...",
+"GTRACE" ("/msg $S GTRACE <action> <criteria> [<criteria> <value>]...",
         "Searches through the glines, much like $bTRACE$b does for users.",
         "Access level: $b${level/gtrace}$b",
         "$uSee Also:$u trace, gtrace action, gtrace criteria"
@@ -610,24 +610,24 @@
         "$uSee Also:$u gtrace action, gtrace"
         );
 
-"GSYNC" ("/msg $O GSYNC [server]",
+"GSYNC" ("/msg $S GSYNC [server]",
         "Requests a list of GLINES from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
         "Access level: $b${level/gsync}$b",
         "$uSee Also:$u refreshg, gline, ungline"
         );
 
-"DEFCON" ("/msg $O DEFCON [1|2|3|4|5]",
-        "The defcon system can be used to implement a pre-defined set of restrictions to services useful during an attempted attack on the network. Not specifying a level will cause $O to display the currently set defcon level and options if the level is below 5",
+"DEFCON" ("/msg $S DEFCON [1|2|3|4|5]",
+        "The defcon system can be used to implement a pre-defined set of restrictions to services useful during an attempted attack on the network. Not specifying a level will cause $S to display the currently set defcon level and options if the level is below 5",
         "Access level: $b${level/defcon}$b",
         );
 
-"REFRESHG" ("/msg $O REFRESHG [server]",
-        "Re-issues all GLINES in $b$O's$b database. Usually used for newly joining or desynched servers.  If a server mask is specified, the GLINES are only sent to server(s) with matching names.",
+"REFRESHG" ("/msg $S REFRESHG [server]",
+        "Re-issues all GLINES in $b$S's$b database. Usually used for newly joining or desynched servers.  If a server mask is specified, the GLINES are only sent to server(s) with matching names.",
         "Access level: $b${level/refreshg}$b",
         "$uSee Also:$u gline, ungline, gsync"
         );
 
-"UNGLINE" ("/msg $O UNGLINE <user@host OR #channel>",
+"UNGLINE" ("/msg $S UNGLINE <user@host OR #channel>",
         "Removes a gline from the network before it expires.",
         "Access level: $b${level/ungline}$b",
         "$uSee Also:$u gline"
@@ -643,19 +643,19 @@
         "  UNSHUN   [${level/unshun}]"
         );
 
-"SBLOCK" ("/msg $O SBLOCK <nick> [duration] [reason]",
+"SBLOCK" ("/msg $S SBLOCK <nick> [duration] [reason]",
         "SHUNS the host of the specified nick for one hour if no duration is given.  If no reason is given, use a default reason.",
         "Access level: $b${level/sblock}$b",
         "$uSee Also:$u shun, unshun"
         );
 
-"SHUN" ("/msg $O SHUN <user@host> <duration> <reason>",
+"SHUN" ("/msg $S SHUN <user@host> <duration> <reason>",
         "Issues a SHUN on the network for the speicified user@host for the specified duration (making the expiration time: net time + duration).",
         "Access level: $b${level/shun}$b",
         "$uSee Also:$u trace, unshun"
         );
 
-"STRACE" ("/msg $O STRACE <action> <criteria> [<criteria> <value>]...",
+"STRACE" ("/msg $S STRACE <action> <criteria> [<criteria> <value>]...",
         "Searches through the shuns, much like $bTRACE$b does for users.",
         "Access level: $b${level/strace}$b",
         "$uSee Also:$u trace, strace action, strace criteria"
@@ -683,25 +683,25 @@
         "$uSee Also:$u strace action, strace"
         );
 
-"SSYNC" ("/msg $O SSYNC [server]",
+"SSYNC" ("/msg $S SSYNC [server]",
         "Requests a list of SHUNS from its uplink or the specified server.  This can be used in the event X3 is down for period and becomes desynced.",
         "Access level: $b${level/ssync}$b",
         "$uSee Also:$u refreshs, shun, unshun"
         );
 
-"REFRESHS" ("/msg $O REFRESHS [server]",
-        "Re-issues all SHUNS in $b$O's$b database. Usually used for newly joining or desynched servers.  If a server mask is specified, the SHUNS are only sent to server(s) with matching names.",
+"REFRESHS" ("/msg $S REFRESHS [server]",
+        "Re-issues all SHUNS in $b$S's$b database. Usually used for newly joining or desynched servers.  If a server mask is specified, the SHUNS are only sent to server(s) with matching names.",
         "Access level: $b${level/refreshs}$b",
         "$uSee Also:$u shun, unshun, ssync"
         );
 
-"UNSHUN" ("/msg $O UNSHUN <user@host>",
+"UNSHUN" ("/msg $S UNSHUN <user@host>",
         "Removes a shun from the network before it expires.",
         "Access level: $b${level/unshun}$b",
         "$uSee Also:$u shun"
         );
 
-"CLONE" ("/msg $O CLONE <sub-command> <sub-command arguments>",
+"CLONE" ("/msg $S CLONE <sub-command> <sub-command arguments>",
         "Creats and manipulates a fake user. Sub-commands for $bclone$b are:",
         "$bADD$b:    Adds a new clone. Arguments: <nickname> <user@host> <info>",
         "$bREMOVE$b: Removes a clone. Arguments: <nickname>",
@@ -713,42 +713,42 @@
         "$uSee Also:$u collide, reserve, jupe"
         );
 
-"COLLIDE" ("/msg $O COLLIDE <nick> <ident> <host> <description>",
+"COLLIDE" ("/msg $S COLLIDE <nick> <ident> <host> <description>",
         "Creates a clone with the specified properties, colliding any existing user with the same nick.",
         "Access level: $b${level/collide}$b",
         "$uSee Also:$u clone, reserve, jupe"
         );
 
-"JUPE" ("/msg $O JUPE <srvname> <srvnum> <description>",
+"JUPE" ("/msg $S JUPE <srvname> <srvnum> <description>",
         "Causes X3 to create a \"juped\" (dummy) server.  This can be used to prevent a poorly connected server from connecting.",
         "Access level: $b${level/jupe}$b",
         "$uSee Also:$u unjupe, clone, reserve"
         );
 
-"RESERVE" ("/msg $O RESERVE <nickname> <user> <host> <comment>",
+"RESERVE" ("/msg $S RESERVE <nickname> <user> <host> <comment>",
         "Used to ban, protect, or jupe a given nick.  Unlike $bclone$b and $bcollide$b, reserved nicks are saved across restarts of X3.",
         "Access level: $b${level/reserve}$b",
         "$uSee Also:$u unreserve, clone, jupe"
         );
 
-"UNJUPE" ("/msg $O UNJUPE <srvname>",
+"UNJUPE" ("/msg $S UNJUPE <srvname>",
         "Causes X3 to unjupe a jupe server.",
         "Access level: $b${level/unjupe}$b",
         "$uSee Also:$u jupe, unreserve, clone"
         );
 
-"ROUTING ADDPLAN" ("/msg $O ROUTING ADDPLAN <name>",
+"ROUTING ADDPLAN" ("/msg $S ROUTING ADDPLAN <name>",
         "Creates a new blank routing plan named name.",
         "You can then use $bROUTING ADDSERVER$b to build it.",
         "Use $bSTATS ROUTING [name]$b to view it, and $bROUTING SET ACTIVE$b to activate it.",
         "$uSee Also:$u routing, stats routing, routing delplan, routing set, routing addserver"
         );
-"ROUTING DELPLAN" ("/msg $O ROUTING DELPLAN <name>",
+"ROUTING DELPLAN" ("/msg $S ROUTING DELPLAN <name>",
         "Removes the routing plan name, including all the servers that make it up. Use with caution, there is no undo.",
         "$uSee Also:$u routing, stats routing, routing addplan"
         );
 
-"ROUTING ADDSERVER" ("/msg $O ROUTING ADDSERVER <plan> <name>[:port] <uplink> [backup uplink]",
+"ROUTING ADDSERVER" ("/msg $S ROUTING ADDSERVER <plan> <name>[:port] <uplink> [backup uplink]",
         "Adds a server to the routing plan 'plan'.",
         " plan   - The name of a routing plan already created.",
         " server - The name of the server you are adding (full hostname).",
@@ -756,7 +756,7 @@
         " uplink - This is the server (full hostname) that you want the server to connect to.",
         " backup uplink - If uplink is offline, this one takes over.",
         " $b$b ",
-        " It is $uvery$u important that the routing plan be from a consistant perspective, without any loops, or disconnected pieces. It helps to pick a server (usually the one $O is liked to) and consider which server each of the servers links to towards $O. For an example see /msg $O HELP ROUTING EXAMPLE.",
+        " It is $uvery$u important that the routing plan be from a consistant perspective, without any loops, or disconnected pieces. It helps to pick a server (usually the one $S is liked to) and consider which server each of the servers links to towards $O. For an example see /msg $O HELP ROUTING EXAMPLE.",
         " If you add a server whose name already exists, the old one will be replaced.",
         "$uSee Also:$u routing, stats routing, routing delserver, routing addplan",
         );
@@ -779,15 +779,15 @@
         "  ROUTING ADDSERVER myplan foobar.net.org:4400 laptop.net.org ",
         "  ROUTING SET ACTIVE myplan ",
         " $b$b ",
-        " If there are loops, or two servers who point to eachother, $O will not be able to use the plan. If there are sections which do not link back to the rest, they will be lost and the plan will not work properly.",
+        " If there are loops, or two servers who point to eachother, $S will not be able to use the plan. If there are sections which do not link back to the rest, they will be lost and the plan will not work properly.",
         );
        
-"ROUTING DELSERVER" ("/msg $O ROUTING DELSERVER <plan> <server>",
+"ROUTING DELSERVER" ("/msg $S ROUTING DELSERVER <plan> <server>",
         "Deletes a server from a routing plan.",
         "$uSee also:$u routing, stats routing, routing addserver, routing delplan",
         );
 
-"ROUTING SET" ("/msg $O ROUTING SET [option] [value]",
+"ROUTING SET" ("/msg $S ROUTING SET [option] [value]",
         "Changes The Auto Routing System options",
         "  ACTIVE           - Sets which routing plan is active. ",
         "                     Set to 'none' to disable auto routing.",
@@ -802,10 +802,10 @@
         "$uSee also:$u routing, stats routing, routing addserver",
        );
 
-"ROUTING MAP" ("/msg $O ROUTING MAP",
+"ROUTING MAP" ("/msg $S ROUTING MAP",
         "Shows the currently active routing plan, as parsed and re-centered for use.",
-        "Before $O can take a routing plan as entered by you, and use it, $O must re-orient the map so all the uplinks point toward it. Loops are detected, and missing pieces lost. This command shows you the desired route, as $O has compiled it.",
-        "If KARMA is enabled, or a server is un-connectable, $O may use a backup uplink to build this map to attempt to repair the network.",
+        "Before $S can take a routing plan as entered by you, and use it, $O must re-orient the map so all the uplinks point toward it. Loops are detected, and missing pieces lost. This command shows you the desired route, as $O has compiled it.",
+        "If KARMA is enabled, or a server is un-connectable, $S may use a backup uplink to build this map to attempt to repair the network.",
         "The check box [ ] is used to indicate if the current routing of the network conforms to the routing map.",
         "[X] - Server is linked correctly",
         "[!] - Server is linked, but not where the plan specifies",
@@ -814,8 +814,8 @@
         "$uSee also:$u routing, stats routing, routing set, routing addserver",
         );
 
-"REROUTE" ("/msg $O REROUTE <C|N|T>",
-        "Allows $O to make changes to the linkage of the servers on the network. It has 3 modes: Normal, Connect-only, and Test:",
+"REROUTE" ("/msg $S REROUTE <C|N|T>",
+        "Allows $S to make changes to the linkage of the servers on the network. It has 3 modes: Normal, Connect-only, and Test:",
         " N - Normal mode: Will delink any servers which are not linked to their primary uplink, and try to reconnect them correctly according to the active routing plan. it will also try to connect servers that are completely missing.",
         " C - Connect-only:  Will attempt to connect any missing servers to the network, using the active routing plan.",
         " T - Test: Will do the same as normal mode, only all actions will be simulated. No actual rerouting will take place, it will only tell you what it WOULD do in normal mode.",
@@ -823,28 +823,28 @@
         "$uSee also:$u routing, routing map, stats routing",
         );
 
-"STATS ROUTING" ("/msg $O STATS ROUTING [planmask]",
+"STATS ROUTING" ("/msg $S STATS ROUTING [planmask]",
         "Provides information about The Auto Routing System's configuration. You can see the routing plans, and the current routing options.",
         " If planmask is provided, you will see the full details for any plans matching the mask (* and ? wildcards)",
         "$uSee also:$u routing, routing set",
         );
 
-"PRIVSET" ("/msg $O PRIVSET <nick> <+/-flag>",
-        "Allows $O to set flags on users.",
+"PRIVSET" ("/msg $S PRIVSET <nick> <+/-flag>",
+        "Allows $S to set flags on users.",
         "Access level: $b${level/privset}$b",
         "$uSee also: privflags"
         );
 
-"UNRESERVE" ("/msg $O UNRESERVE <nick>",
-        "Removes a nick from $b$O's$b reserve list.",
+"UNRESERVE" ("/msg $S UNRESERVE <nick>",
+        "Removes a nick from $b$S's$b reserve list.",
         "Access level: $b${level/unreserve}$b",
         "$uSee Also:$u reserve, clone, unjupe"
         );
 
-"LOG" ("/msg $O LOG <criteria> <value> [<criteria> <value>]...",
+"LOG" ("/msg $S LOG <criteria> <value> [<criteria> <value>]...",
         "Searches services logs based on critera specified and displays the results.",
         "Criteria and associated values (a search match all specified items):",
-        "$bBOT$b -         A service bot's name (for example, $O).",
+        "$bBOT$b -         A service bot's name (for example, $S).",
         "$bCHANNEL$b -     The channel where a command was issued (accepts wildcards).",
         "$bNICK$b -        The nickname issuing the command (accepts wildcards).",
         "$bACCOUNT$b -     The account of the user who issued the command (accepts wildcards).",
@@ -858,54 +858,54 @@
         "$uSee Also:$u reopen"
         );
 
-"REOPEN" ("/msg $O REOPEN",
+"REOPEN" ("/msg $S REOPEN",
         "Close and re-open all the log files.",
         "$uSee Also:$u log, rehash, write, writeall, readhelp"
         );
 
-"DIE" ("/msg $O DIE <reason>",
+"DIE" ("/msg $S DIE <reason>",
         "SQUIT X3 with the given reason and shuts it down.",
         "Access level: $b${level/die}$b",
         "$uSee Also:$u restart, reconnect, jump"
         );
 
-"JUMP" ("/msg $O JUMP <uplink>",
+"JUMP" ("/msg $S JUMP <uplink>",
         "Causes X3 to connect to the specified uplink.",
         "Access level: $b${level/jump}$b",
         "$uSee Also:$u reconnect, restart, die"
         );
 
-"RECONNECT" ("/msg $O RECONNECT ",
+"RECONNECT" ("/msg $S RECONNECT ",
         "Causes X3 to reconnect to its current uplink.",
         "Access level: $b${level/reconnect}$b",
         "$uSee Also:$u jump, rehash, restart, die"
         );
 
-"REHASH" ("/msg $O REHASH",
+"REHASH" ("/msg $S REHASH",
         "Causes X3 to re-read its configuration file and update its state as much as possible.",
         "Access level: $b${level/rehash}$b",
         "$uSee Also:$u die, reconnect, jump, restart"
         );
 
-"RESTART" ("/msg $O RESTART <reason>",
+"RESTART" ("/msg $S RESTART <reason>",
         "Causes X3 to SQUIT with the specified reason and restart.",
         "Access level: $b${level/restart}$b",
         "$uSee Also:$u reconnect, rehash, die"
         );
 
-"GAG" ("/msg $O GAG <mask> <duration> <reason>",
+"GAG" ("/msg $S GAG <mask> <duration> <reason>",
         "Sets a complete services-wide ignore on all users matching the provided mask. All services will completely ignore all private messages or notices from gagged users.",
         "The gag will automatically expire after $b<duration>$b (or last forever if that is zero).",
         "Access level: $b${level/gag}$b",
         "$uSee Also:$u ungag, trace, stats gags"
         );
 
-"HELPSERV" ("/msg $O HELPSERV <command>",
+"HELPSERV" ("/msg $S HELPSERV <command>",
         "Sends a command to the HelpServ system. It is used for all \"override\" commands, as well as registration and unregistration.",
-        "$uSee also:$u /msg $O HELPSERV HELP"
+        "$uSee also:$u /msg $S HELPSERV HELP"
         );
 
-"QUERY" ("/msg $O QUERY [key][/<sub-key>[/<sub-sub-key>]...]",
+"QUERY" ("/msg $S QUERY [key][/<sub-key>[/<sub-sub-key>]...]",
         "Displays the value of the given configuration key.  ",
         "If the key is a composite entry, show the subkeys inside it.",
         "Examples:",
@@ -916,31 +916,31 @@
         "$uSee Also:$u set, rehash"
         );
 
-"SET" ("/msg $O SET <option> <value>",
+"SET" ("/msg $S SET <option> <value>",
         "Modifies the internal configuration database. Currently, only keys that have been previously set may be modified.",
         "Access level: $b${level/set}$b",
         "$uSee Also:$u query, rehash"
         );
 
-"UNGAG" ("/msg $O UNGAG <hostmask>",
+"UNGAG" ("/msg $S UNGAG <hostmask>",
         "Ungags a gaged hostmask.",
         "Access level: $b${level/ungag}$b",
         "$uSee Also:$u gag, stats gags"
         );
 
-"DUMP" ("/msg $O DUMP <raw line>",
+"DUMP" ("/msg $S DUMP <raw line>",
         "Dumps a raw server message into the stream. Unlike $braw$b, $bdump$b checks line syntax before sending it, making it much safer to use then $braw$b. If $bdump$b detects a syntax error in the line, it is not sent. It is $bHIGHLY$b recommended that you use $bdump$b instead of $braw$b.",
         "Access level: $b${level/dump}$b",
         "$uSee Also:$u raw"
         );
 
-"RAW" ("/msg $O RAW <raw line>",
+"RAW" ("/msg $S RAW <raw line>",
         "Dumps a raw server message into the stream. Unlike $bdump$b, $braw$b does $bNOT$b check line syntax before sending it, making $braw$b dangerous. It will however, after the line is sent, warn of a parse error if there is a problem with the line. It is $bHIGHLY$b recommended that $bdump$b be used instead of $braw$b because it is much safer.",
         "Access level: $b${level/raw}$b",
         "$uSee Also:$u dump"
         );
 
-"SETTIME" ("/msg $O SETTIME [servermask] [resync]",
+"SETTIME" ("/msg $S SETTIME [servermask] [resync]",
         "Sets the time on the named server(s) to match the time known to X3.",
         "For example, using $b*$b as the mask sets the time on all servers; using a server's full name sets the time only on that one.",
         "If the RESYNC argument is provided, sets the time to what X3 believes the local time is, rather than what it believes the network time is.",
@@ -948,7 +948,7 @@
         "$uSee Also:$u timecmd"
         );
 
-"STATS" ("/msg $O STATS <subject>",
+"STATS" ("/msg $S STATS <subject>",
         "Displays statistics about a specified subject. Subjects include:",
         "$bALERTS$b:     The list of current \"alerts\".",
         "$bBAD$b:        Current list of bad words and exempted channels.",
@@ -973,7 +973,7 @@
         "$uSee Also:$u stats alerts"
         );
 
-"STATS ALERTS" ("/msg $O STATS ALERTS [Owner|Filter]",
+"STATS ALERTS" ("/msg $S STATS ALERTS [Owner|Filter]",
         "Show alerts. If a parameter is given, only alerts who match it are shown.",
         "$b$b",
         " Owner  - the account name of whoever created the alert",
@@ -983,7 +983,7 @@
         "$uSee Also:$u addalert, delalert, stats"
         );
 
-"TRACK" ("/msg $O TRACK <+/-type|all|none>",
+"TRACK" ("/msg $S TRACK <+/-type|all|none>",
         "This specifies what will be tracked in the tracking channel.",
         "Use + to add flags and - to remove types. Use ALL to enable all",
         "tracking options available, use NONE to completly disable them.",
@@ -998,19 +998,19 @@
         "part  - Parts",
         "umode - Umodes");
 
-"ADDTRACK" ("/msg $O ADDTRACK <nick>",
+"ADDTRACK" ("/msg $S ADDTRACK <nick>",
         "Adds the given <nick> to the tracking list.",
         "$uSee Also:$u deltrack listtrack addalert");
 
-"DELTRACK" ("/msg $O DELTRACK <nick>",
+"DELTRACK" ("/msg $S DELTRACK <nick>",
         "Removes the given <nick> from the tracking list.",
         "$uSee Also:$u deltrack listtrack");
 
-"LISTTRACK" ("/msg $O LISTTRACK",
+"LISTTRACK" ("/msg $S LISTTRACK",
         "Lists all currently active tracks.",
         "$uSee Also:$u addtrack deltrack");
 
-"RESETMAX" ("/msg $O RESETMAX",
+"RESETMAX" ("/msg $S RESETMAX",
         "Resets the max clients number to the current ammount of connected clients. Use with caution.",
         "$uSee Also:$u stats max");
 
