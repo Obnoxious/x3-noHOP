@@ -437,14 +437,6 @@ static const struct message_entry msgtab[] = {
     { "OSMSG_KILL_OPER", "$b%s$b is an Oper and may not be killed." },
     { "OSMSG_KILL_ISSUED", "Killed $b%s$b." },
 
-    #ifdef WITH_HALFOP
-    { "OSMSG_DEHOP_DONE", "Dehalfopped the requested lusers." },
-    { "OSMSG_DEHOPALL_DONE", "Dehalfopped everyone on $b%s$b." },
-    { "OSMSG_HOP_DONE", "Halfopped the requested lusers." },
-	{ "OSMSG_HOPALL_DONE", "Halfopped everyone on $b%s$b." },
-	{ "OSMSG_HOPS_GIVEN", "I have given halfops in $b%s$b to $b%s$b." },
-    #endif
-
     { NULL, NULL }
 };
 
@@ -951,25 +943,6 @@ static MODCMD_FUNC(cmd_chaninfo)
                  send_message_type(4, user, cmd->parent->bot, " @%s (%s@%s)", moden->user->nick, moden->user->ident, moden->user->hostname);
         }
     }
-    #ifdef WITH_HALFOP
-    for (n=0; n<channel->members.used; n++) {
-        moden = channel->members.list[n];
-        if ((moden->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE)) == MODE_HALFOP)
-            send_messahe_type(4, user, cmd->parent->bot, " %s%s (%s@%s)", "%", moden->user->nick, moden->user->ident, moden->user->hostname);
-    }
-
-	for (n=0; n<channel->members.used; n++) {
-        moden = channel->members.list[n];
-        if ((moden->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE)) == MODE_VOICE)
-            send_messahe_type(4, user, cmd->parent->bot, " +%s (%s@%s)", moden->user->nick, moden->user->ident, moden->user->hostname);
-    }
-
-    for (n=0; n<channel->members.used; n++) {
-        moden = channel->members.list[n];
-        if ((moden->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE)) == 0)
-			send_message_type(4, user, cmd->parent->bot, "  %s (%s@%s)", moden->user->nick, moden->user->ident, moden->user->hostname);
-    }
-    #else
     for (n=0; n<channel->members.used; n++) {
         moden = channel->members.list[n];
         if ((moden->modes & (MODE_CHANOP|MODE_VOICE)) == MODE_VOICE)
@@ -980,8 +953,6 @@ static MODCMD_FUNC(cmd_chaninfo)
         if ((moden->modes & (MODE_CHANOP|MODE_VOICE)) == 0)
             send_message_type(4, user, cmd->parent->bot, "  %s (%s@%s)", moden->user->nick, moden->user->ident, moden->user->hostname);
     }
-    #endif
-
     return 1;
 }
 
@@ -1085,32 +1056,6 @@ static MODCMD_FUNC(cmd_deop)
     return 1;
 }
 
-#ifdef WITH_HALFOP
-static MODCMD_FUNC(cmd_dehop)
-{
-    struct mod_chanmode *change;
-	unsigned int arg, count;
-
-    change = mod_chanmode_alloc(argc-1);
-    for (arg = 1, count= 0; arg < argc; ++arg) {
-        struct userNode *victim = GetUserH(argv[arg]);
-        struct modeNode *mn;
-        if (!victim || IsService(victim)
-            || !(mn = GetUserMode(channel, victim))
-            || !(mn->modes & MODE_HALFOP))
-            continue;
-        change->args[count].mode = MODE_REMOVE | MODE_HALFOP;
-        change->args[count++].uémember = mn;
-    }
-    if (count) {
-        change->argc = count;
-        modcmd_chanmode_announce(change);
-    }
-    modcmd_chanmode_free(change);
-    reply("OSMSG_DEHOP_DONE");
-    return 1;
-}
-#endif
 
 static MODCMD_FUNC(cmd_deopall)
 {
@@ -1134,29 +1079,6 @@ static MODCMD_FUNC(cmd_deopall)
     return 1;
 }
 
-#ifdef WITH_HALFOP
-static MODCMD_FUNC(cmd_dehopall)
-{
-    struct mod_chanmode *change;
-    unsigned int ii, count;
-    
-    change = mod_chanmode_alloc(channel->members.used);
-    for (ii = count = 0; ii < channel->members.used; ++ii) {
-        struct modeNode *mn = channel -> members.list[ii];
-        if (IsService(mn->user) || !(mn->modes & MODE_HALFOP))
-            continue;
-        change->args[count].mode = MODE_REMOVE | MODE_HALFOP;
-        change->args[count++].u.member = mn;
-    }
-    if (count) {
-        change->argc = count;
-        modcmd_chanmode_announce(change);
-    }
-    mod_chanmode_free(change);
-    reply("OSMSG_DEHOPALL_DONE", channel->name);
-    return 1;
-}
-#endif
 
 static MODCMD_FUNC(cmd_resetmax)
 {
@@ -1713,10 +1635,6 @@ opserv_ison(struct userNode *bot, struct userNode *tell, struct userNode *target
         }
         if (mn->modes & MODE_CHANOP)
             buff[count++] = '@';
-        #ifdef WITH_HALFOP
-        if (mn->modes & MODE_HALFOP)
-            buff[count++] = '%';
-        #endif
         if (mn->modes & MODE_VOICE)
             buff[count++] = '+';
         memcpy(buff+count, mn->channel->name, here_len);
@@ -2122,34 +2040,6 @@ static MODCMD_FUNC(cmd_op)
     return 1;
 }
 
-#ifdef WITH_HALFOP
-static MODCMD_FUNC(cmd_hop)
-{
-    struct mod_chanmode *change;
-    unsigned int arg, count;
-
-    change = mod_chanmode_alloc(argc-1);
-    for (arg = 1, count = 0; arg < argc; ++arg) {
-        struct userNode *victim;
-        struct modeNode *mn;
-        if (!(victim = GetUserH(argv[arg])))
-            continue;
-        if (!(mn =  GetUserMode(channel, victim)))
-            continue;
-        if (mn->modes & MODE_HALFOP)
-            continue;
-        change->args[count].mode = MODE_HALFOP;
-        change->args[count++].u.member = mn;
-    }
-    if (count) {
-        change->argc = count;
-        modcmd_chanmode_announce(change);
-    }
-    mod_chanmode_free(change);
-    reply("OSMSG_HOP_DONE");
-    return 1;
-}
-#endif
 
 static MODCMD_FUNC(cmd_opall)
 {
@@ -2173,29 +2063,6 @@ static MODCMD_FUNC(cmd_opall)
     return 1;
 }
 
-#ifdef WITH_HALFOP
-static MODCMD_FUNC(cmd_hopall)
-{
-   struct mod_chanmode *change;
-   unsigned int ii, count;
-
-   change = mod_chanmode_alloc(channel->members.used);
-   for (ii = count = 0; ii < channel->members.used; ++ii) {
-       struct modeNode *mn = channel->members.list[ii];
-       if (mn->modes & MODE_HALFOP)
-           continue;
-       change->args[count].mode = MODE_HALFOP;
-	   change->args[count++].u.member = mn;
-   }
-   if (count) {
-       change->argc = count;
-       modcmd_chanmode_announce(change);
-   }
-   mod_chanmode_free(change);
-   reply("OSMSG_HOPALL_DONE", channel->name);
-   return 1;
-}
-#endif
 
 static MODCMD_FUNC(cmd_whois)
 {
@@ -2303,13 +2170,8 @@ static MODCMD_FUNC(cmd_voiceall)
     change = mod_chanmode_alloc(channel->members.used);
     for (ii = count = 0; ii < channel->members.used; ++ii) {
         struct modeNode *mn = channel->members.list[ii];
-        #ifdef WITH_HALFOP
-        if (mn->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE))
+        if (mn->modes & (MODE_CHANOP|MODE_VOICE))
             continue;
-        #else
-		if (mn->modes & (MODE_CHANOP|MODE_VOICE))
-            continue;
-        #endif
         change->args[count].mode = MODE_VOICE;
         change->args[count++].u.member = mn;
     }
@@ -4599,26 +4461,6 @@ static MODCMD_FUNC(cmd_clone)
         reply("OSMSG_OPS_GIVEN", channel->name, clone->nick);
         return 1;
     }
-    #ifdef WITH_HALFOP
-    if (!irccasecmp(argv[1], "HOP")) {
-        struct mod_chanmode change;
-        if (!channel) {
-            reply("MSG_CHANNEL_UNKNOWN", argv[3]);
-            return 0;
-        }
-        mod_chanmode_init(&change);
-        change.argc = 1;
-        change.args[0].mode = MODE_HALFOP;
-        change.args[0].u.member = GetUserMode(channel, clone);
-        if (!change.args[0].u.member) {
-            reply("OSMSG_NOT_ON_CHANNEL", clone->nick, channel->name);
-            return 0;
-        }
-        modcmd_chanmode_announce(&change);
-        reply("OSMSG_HOPS_GIVEN", channel->name, clone->nick);
-        return 1;
-    }
-    #endif
     if (argc < 5) {
         reply("MSG_MISSING_PARAMS", argv[1]);
         OPSERV_SYNTAX();
@@ -5529,16 +5371,7 @@ opserv_discrim_create(struct userNode *user, struct userNode *bot, unsigned int 
             case '+':
                 discrim->chan_req_modes[discrim->channel_count] |= MODE_VOICE;
                 discrim->chan_no_modes[discrim->channel_count]  |= MODE_CHANOP;
-                #ifdef WITH_HALFOP
-                discrim->chan_no_modes[discrim->channel_count]  |= MODE_HALFOP;
-                #endif
                 break;
-            #ifdef WITH_HALFOP
-            case '%':
-                discrim->chan_req_modes[discrim->channel_count] |= MODE_HALFOP;
-                discrim->chan_no_modes[discrim->channel_count]  |= MODE_CHANOP;
-                break;
-            #endif
             case '@':
                 discrim->chan_req_modes[discrim->channel_count] |= MODE_CHANOP;
                 break;
@@ -7419,10 +7252,6 @@ init_opserv(const char *nick)
     opserv_define_func("DEOP", cmd_deop, 100, 2, 2);
     opserv_define_func("DEOPALL", cmd_deopall, 400, 2, 0);
     opserv_define_func("DEFCON", cmd_defcon, 900, 0, 0);
-    #ifdef WITH_HALFOP
-    opserv_define_func("DEHOP", cmd_dehop, 100, 2, 2);
-    opserv_define_func("DEHOPALL", cmd_dehopall, 400, 2, 0);
-    #endif
     opserv_define_func("DEVOICEALL", cmd_devoiceall, 300, 2, 0);
     opserv_define_func("DIE", cmd_die, 900, 0, 2);
     opserv_define_func("DUMP", cmd_dump, 999, 0, 2);
@@ -7457,10 +7286,6 @@ init_opserv(const char *nick)
     opserv_define_func("MARK", cmd_mark, 900, 0, 3);
     opserv_define_func("OP", cmd_op, 100, 2, 2);
     opserv_define_func("OPALL", cmd_opall, 400, 2, 0);
-    #ifdef WITH_HALFOP
-    opserv_define_func("HOP", cmd_hop, 100, 2, 2);
-    opserv_define_func("HOPALL", cmd_hopall, 400, 2, 0);
-    #endif
     opserv_define_func("MAP", cmd_stats_links, 0, 0, 0);
     opserv_define_func("PRIVSET", cmd_privset, 900, 0, 3);
     opserv_define_func("PART", cmd_part, 601, 2, 0);
