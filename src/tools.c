@@ -675,6 +675,10 @@ user_matches_glob(struct userNode *user, const char *orig_glob, int flags, int s
                             if (0 == strcasecmp(glob+1, mn->channel->name)) {
                                 if ((*glob == '@') && (mn->modes & MODE_CHANOP))
                                     match = 1;
+                                #ifdef WITH_HALFOP
+                                else if ((*glob == '%') && (mn->modes & MODE_HALFOP))
+                                    match = 1;
+                                #endif
                                 else if ((*glob == '+') && (mn->modes & MODE_VOICE))
                                     match = 1;
                              }
@@ -699,6 +703,10 @@ user_matches_glob(struct userNode *user, const char *orig_glob, int flags, int s
                             if (0 == strcasecmp(glob+1, mn->channel->name)) {
                                 if ((*glob == '@') && (mn->modes & MODE_CHANOP))
                                     match = 1;
+                                #ifdef WITH_HALFOP
+                                else if ((*glob == '%') && (mn->modes & MODE_VOICE))
+                                    match = 1;
+                                #endif
                                 else if ((*glob == '+') && (mn->modes & MODE_VOICE))
                                     match = 1;
                              }

@@ -48,6 +48,9 @@
 #define MODE_NOQUITMSGS         0x00100000 /* +Q suppress messages from quit notices */
 #define MODE_NOAMSG             0x00200000 /* +T no multi-target messages */
 #define MODE_SSLONLY            0x00400000 /* +Z ssl only */
+#ifdef WITH_HALFOP
+#define MODE_HALFOP             0x00800000
+#endif
 #define MODE_EXEMPT             0x01000000 /* +e exempt */
 #define MODE_HIDEMODE		0x02000000 /* +L hide modes */
 #define MODE_APASS		0x04000000 /* +A adminpass */

@@ -202,11 +202,30 @@ static const struct message_entry msgtab[] = {
     { "CSMSG_GODMODE_UP", "You may not use $b%s$b to op yourself unless you are on the user list.  Use the $bop$b command instead." },
     { "CSMSG_ALREADY_OPPED", "You are already opped in $b%s$b." },
     { "CSMSG_ALREADY_VOICED", "You are already voiced in $b%s$b." },
-    { "CSMSG_ALREADY_DOWN", "You are not opped or voiced in $b%s$b." },
     { "CSMSG_ALREADY_OPCHANNED", "There has been no net.join since the last opchan in $b%s$b." },
     { "CSMSG_OUT_OF_CHANNEL", "For some reason I don't seem to be in $b%s$b." },
     { "CSMSG_OPCHAN_DONE", "I have (re-)opped myself in $b%s$b." },
     { "CSMSG_NOT_IN_CHANNEL", "I am not in %s." },
+/* HOP related messages */
+    #ifdef WITH_HALFOP
+    { "CSMSG_ALREADY_HALFOPPED", "You are already halfopped in $b%s$b." },
+    { "CSMSG_SET_ENFHALFOPS",    "$bEnfHalfOps  $b %d - level and above can hop unknown users." },
+    { "CSMSG_HOPBY_LOCKED", "You may not halfop users who lack halfop or greater access." },
+    { "CSMSG_HALFOPPED_USERS", "Halfopped users in $b%s$b." },
+    { "CSMSG_DEHALFOPPED_USERS", "DeHalfopped users in $b%s$b." },
+	{ "CSMSG_AUTOMODE_HOP", "#1 plus give halfops to everyone." },
+    #endif
+/* Stuff that has hop mentioned in it */
+    #ifdef WITH_HALFOP
+    { "CSMSG_ALREADY_DOWN", "You are not opped, halfopped, or voiced in $b%s$b." },
+    { "CSMSG_AUTOMODE_MUTE", "Give half-op to halfops, and op to ops only." },
+    { "CSMSG_AUTOMODE_NORMAL", "Give voice to pals, half-op to halfops, and op to ops." },
+    { "CSMSG_AUTOMODE_NONE", "Noone will be automatically oped, half-oped, or voiced." },
+    #else
+    { "CSMSG_ALREADY_DOWN", "You are not opped or voiced in $b%s$b." },
+    { "CSMSG_AUTOMODE_NORMAL", "Give voice to pals and op to ops." },
+    { "CSMSG_AUTOMODE_NONE", "Noone will be automatically oped or voiced." },
+    #endif
 
 /* Removing yourself from a channel. */
     { "CSMSG_NO_OWNER_DELETEME", "You cannot delete your owner access in $b%s$b." },
@@ -331,8 +350,6 @@ static const struct message_entry msgtab[] = {
     { "CSMSG_VOICED_USERS", "Voiced users in $b%s$b." },
     { "CSMSG_DEVOICED_USERS", "Devoiced users in $b%s$b." },
 
-    { "CSMSG_AUTOMODE_NONE", "Noone will be automatically oped or voiced." },
-    { "CSMSG_AUTOMODE_NORMAL", "Give voice to pals and op to ops." },
     { "CSMSG_AUTOMODE_VOICE", "#1 plus give voice to everyone." },
     { "CSMSG_AUTOMODE_OP", "#1 plus give ops to everyone (not advised)" },
     { "CSMSG_AUTOMODE_MUTE", "Give op to ops only." },
@@ -707,6 +724,9 @@ static const struct {
 } accessLevels[] = { /* MUST be orderd less to most! */
     { "pal", "Pal", UL_PEON, '+' },
     { "peon", "Peon", UL_PEON, '+' },
+    #ifdef WITH_HALFOP
+    { "halfop", "HalfOp", UL_HALFOP, '%' };
+    #endif
     { "op", "Op", UL_OP, '@' },
     { "manager", "Manager", UL_MANAGER, '%' },
     { "coowner", "Coowner", UL_COOWNER, '*' },
@@ -724,6 +744,9 @@ static const struct {
     unsigned short flag_value;
 } levelOptions[] = {
     { "CSMSG_SET_ENFOPS",     "enfops",     300,  1, 0, 0 },
+    #ifdef WITH_HALFOP
+    { "CSMSG_SET_ENFHALFOPS", "enfhalfops", 300,  1, 0, 0 },
+    #endif
     { "CSMSG_SET_ENFMODES",   "enfmodes",   200,  3, 0, 0 },
     { "CSMSG_SET_ENFTOPIC",   "enftopic",   200,  4, 0, 0 },
     { "CSMSG_SET_PUBCMD",     "pubcmd",       0,  5, 0, 0 },
@@ -740,6 +763,9 @@ struct charOptionValues {
     { 'n', "CSMSG_AUTOMODE_NONE" },
     { 'y', "CSMSG_AUTOMODE_NORMAL" },
     { 'v', "CSMSG_AUTOMODE_VOICE" },
+    #ifdef WITH_HALFOP
+    { 'h', "CSMSG_AUTOMODE_HOP" },
+    #endif
     { 'o', "CSMSG_AUTOMODE_OP" },
     { 'm', "CSMSG_AUTOMODE_MUTE" },
     { 'l', "CSMSG_AUTOMODE_ONLYVOICE" }
@@ -1403,14 +1429,25 @@ chanserv_expire_tempclvl(void *data)
         if (uData->clvlexpiry > 0) {
             int changemodes = 0;
             unsigned int mode = 0;
- 
+            
+            #ifdef WITH_HALFOP
+            if (((uData->lastaccess == UL_PEON) || (uData->lastaccess == UL_HALFOP)) && uData->access >= UL_OP) {
+                changemodes = 1;
+                mode = MODE_REMOVE | MODE_CHANOP;
+            } else if ((uData->lastaccess == UL_PEON) && (uData->access == UL_HALFOP)) {
+                changemodes = 1;
+                mode = MODE_REMOVE | MODE_HALFOP;
+			}
+            #else
             if (((uData->lastaccess == UL_PEON) || (uData->lastaccess == UL_OP)) && (uData->access >= UL_MANAGER)) {
                 changemodes = 1;
                 mode = MODE_REMOVE | MODE_CHANOP;
             } else if ((uData->lastaccess == UL_PEON) && (uData->access == UL_OP)) {
-		changemodes = 1;
-		mode = MODE_REMOVE | MODE_CHANOP;
-	    } else
+                changemodes = 1;
+                mode = MODE_REMOVE | MODE_CHANOP;
+            } 
+            #endif
+              else
                 changemodes = 0;
 
             if (uData->present) {
@@ -1935,7 +1972,24 @@ validate_op(struct svccmd *cmd, struct userNode *user, struct chanNode *channel,
     return 1;
 }
 
+#ifdef WITH_HALFOP
+static int
+validate_halfop(struct svccmd *cmd, struct userNode *user, struct chanNode *channel, struct userNode *victim)
+{
+    struct chanData *cData = channel->channel_info;
+    struct userData *cs_victim;
 
+    if ((!(cs_victim = GetChannelUser(cData, victim->handle_info))
+         || (cs_victim->access < UL_HALFOP))
+        && !check_user_level(channel, user, lvlEnfHalfOps, 0, 0))
+    {
+         reply("CSMSG_HOPBY_LOCKED");
+         return 0;
+    }
+
+    return 1;
+}
+#endif
 
 static int
 validate_deop(struct svccmd *cmd, struct userNode *user, struct chanNode *channel, struct userNode *victim)
@@ -1955,6 +2009,25 @@ validate_deop(struct svccmd *cmd, struct userNode *user, struct chanNode *channe
     return 1;
 }
 
+#ifdef WITH_HALFOP
+static int
+validate_deop(struct svccmd *cmd, struct userNode *user, struct chanNode *channel, struct userNode *victim)
+{
+    if(IsService(victim))
+    {
+        reply("MSG_SERVICE_IMMUNE", victim->nick);
+        return 0;
+    }
+    
+    if(protect_user(victim, user, channel->channel_info, false))
+    {
+        reply("CSMSG_USER_PROTECTED", victim->nick);
+        return 0;
+    }
+
+    return 1;
+}
+#endif
 
 static struct do_not_register *
 chanserv_add_dnr(const char *chan_name, const char *setter, time_t expires, const char *reason)
@@ -3360,7 +3433,23 @@ static CHANSERV_FUNC(cmd_mdelop)
 {
     return cmd_mdel_user(user, channel, UL_OP, UL_MANAGER-1, argv[1], cmd);
 }
+#ifdef WITH_HALFOP
+static CHANSERV_FUNC(cmd_mdelhalfop)
+{
+    return cmd_mdel_user(user, channel, UL_HALFOP, UL_OP-1, argv[1], cmd);
+}
 
+static CHANSERV_FUNC(cmd_mdelpeon)
+{
+    return cmd_mdel_user(user, channel, UL_PEON, UL_HALFOP-1, argv[1], cmd);
+}
+
+static CHANSERV_FUNC(cmd_mdelpal)
+{
+    return cmd_mdel_user(user, channel, UL_PEON, UL_HALFOP-1, argv[1], cmd);
+}
+
+#else
 static CHANSERV_FUNC(cmd_mdelpeon)
 {
     return cmd_mdel_user(user, channel, UL_PEON, UL_OP-1, argv[1], cmd);
@@ -3370,13 +3459,17 @@ static CHANSERV_FUNC(cmd_mdelpal)
 {
     return cmd_mdel_user(user, channel, UL_PEON, UL_OP-1, argv[1], cmd);
 }
+#endif
 
 static CHANSERV_FUNC(cmd_levels)
 {
     struct helpfile_table tbl;
     int ii = 0;
-
-    tbl.length = 5 + 1; // 6 levels
+    #ifdef WITH_HALFOP
+    tbl.length = 6 + 1; // 6 levels
+    #else
+    tbl.length = 5 + 1; // 5 levels
+    #endif
     tbl.width = 4;
     tbl.flags = 0;
     tbl.contents = calloc(tbl.length,sizeof(tbl.contents[0]));
@@ -3410,12 +3503,25 @@ static CHANSERV_FUNC(cmd_levels)
     tbl.contents[ii][2] = msnprintf(2, "-");
     tbl.contents[ii][3] = msnprintf(4, "%d", UL_MANAGER-1);
 
+    #ifdef WITH_HALFOP
+    tbl.contents[++ii] = calloc(tbl.width, sizeof(tbl.contents[0][0]));
+    tbl.contents[ii][0] = strdup(user_level_name_from_level(UL_HALFOP));
+    tbl.contents[ii][1] = msnprintf(4, "%d", UL_HALFOP);
+    tbl.contents[ii][2] = msnprintf(2, "-");
+    tbl.contents[ii][3] = msnprintf(4, "%d", UL_OP-1);
+
+    tbl.contents[++ii] = calloc(tbl.width, sizeof(tbl.contents[0][0]));
+	tbl.contents[ii][0] = strdup(user_level_name_from_level(UL_PEON));
+    tbl.contents[ii][1] = msnprintf(4, "%d", UL_PEON);
+    tbl.contents[ii][2] = msnprintf(2, "-");
+    tbl.contents[ii][3] = msnprintf(4, "%d", UL_HALFOP-1);
+    #else
     tbl.contents[++ii] = calloc(tbl.width, sizeof(tbl.contents[0][0]));
     tbl.contents[ii][0] = strdup(user_level_name_from_level(UL_PEON));
     tbl.contents[ii][1] = msnprintf(4, "%d", UL_PEON);
     tbl.contents[ii][2] = msnprintf(2, "-");
     tbl.contents[ii][3] = msnprintf(4, "%d", UL_OP-1);
-
+    #endif
     table_send(cmd->parent->bot, user->nick, 0, NULL, tbl);
     return 0;
 
@@ -3579,6 +3685,13 @@ static CHANSERV_FUNC(cmd_up)
         change.args[0].mode = MODE_CHANOP;
         errmsg = "CSMSG_ALREADY_OPPED";
     }
+    #ifdef WITH_HALFOP
+    else if(uData->access >= UL_HALFOP)
+    {
+        change.args[0].mode = MODE_HALFOP;
+        errmsg = "CSMSG_ALREADY_HALFOPPED";
+    }
+    #endif
     else if(uData->access >= UL_PEON && (channel->channel_info->chOpts[chAutomode] != 'm' ))
     {
         change.args[0].mode = MODE_VOICE;
@@ -3695,6 +3808,18 @@ static CHANSERV_FUNC(cmd_op)
 {
     return modify_users(CSFUNC_ARGS, validate_op, MODE_CHANOP, "CSMSG_OPPED_USERS");
 }
+
+#ifdef WITH_HALFOP
+static CHANSERV_FUNC(cmd_hop)
+{
+    return modify_users(CSFUNC_ARGS, validate_halfop, MODE_HALFOP, "CSMSG_HALFOPPED_USERS");
+}
+
+static CHANSERV_FUNC(cmd_dehop)
+{
+    return modify_users(CSFUNC_ARGS, validate_dehop, MODE_REMOVE|MODE_HALFOP, "CSMSG_DEHALFOPPED_USERS");
+}
+#endif
 
 static CHANSERV_FUNC(cmd_deop)
 {
@@ -4050,6 +4175,9 @@ eject_user(struct userNode *user, struct chanNode *channel, unsigned int argc, c
         change = mod_chanmode_alloc(victimCount + 1);
         for(n = 0; n < victimCount; ++n)
         {
+            #ifdef WITH_HALFOP
+            change->args[n].mode = MODE_REMOVE|MODE_CHANOP|MODE_HALFOP|MODE_VOICE;
+            #endif
             change->args[n].mode = MODE_REMOVE|MODE_CHANOP|MODE_VOICE;
             change->args[n].u.member = victims[n];
         }
@@ -4444,6 +4572,10 @@ static CHANSERV_FUNC(cmd_myaccess)
         {
             if(uData->access >= UL_OP )
                 string_buffer_append(&sbuf, 'o');
+            #ifdef WITH_HALFOP
+            else if(uData->access >= UL_HALFOP )
+                string_buffer_append(&sbuf, 'h');
+            #endif
             else if(uData->access >= UL_PEON )
                 string_buffer_append(&sbuf, 'v');
         }
@@ -4924,11 +5056,23 @@ static CHANSERV_FUNC(cmd_olist)
     return cmd_list_users(CSFUNC_ARGS, UL_OP, UL_MANAGER-1);
 }
 
+#ifdef WITH_HALFOP
+static CHANSERV_FUNC(cmd_hlist)
+{
+    return cmd_list_users(CSFUNC_ARGS, UL_HALFOP, UL_OP-1);
+}
+
+static CHANSERV_FUNC(cmd_plist)
+{
+    return cmd_list_users(CSFUNC_ARGS, 1, UL_HALFOP-1);
+}
+#else
 
 static CHANSERV_FUNC(cmd_plist)
 {
     return cmd_list_users(CSFUNC_ARGS, 1, UL_OP-1);       /* This might be fucked */
 }
+#endif
 
 static CHANSERV_FUNC(cmd_lamers)
 {
@@ -5635,6 +5779,21 @@ resync_channel(struct chanNode *channel)
                     changes->args[used++].u.member = mn;
                 }
             }
+            #ifdef WITH_HALFOP
+            else if(uData && uData->access >= UL_HALFOP)
+            {
+                if(mn->modes & MODE_CHANOP)
+                {
+                    changes->args[used].mode = MODE_REMOVE | MODE_CHANOP;
+                    changes->args[used++].u.member = mn;
+                }
+                if(!(mn->modes & MODE_HALFOP))
+                {
+                    changes->args[used].mode = MODE_HALFOP;
+                    changes->args[used++].u.member = mn;
+                }
+            }
+            #endif
             else if(uData && uData->access >= UL_PEON )
             {
                 if(mn->modes & MODE_CHANOP)
@@ -5642,6 +5801,13 @@ resync_channel(struct chanNode *channel)
                     changes->args[used].mode = MODE_REMOVE | MODE_CHANOP;
                     changes->args[used++].u.member = mn;
                 }
+                #ifdef WITH_HALFOP
+                if(nm->modes & MODE_HALFOP)
+                {
+                    changes->args[used].mode = MODE_REMOVE | MODE_HALFOP;
+                    changes->args[used++].u.member = mn;
+                }
+                #endif
                 /* Don't voice peons if were in mode m */
                 if( cData->chOpts[chAutomode] == 'm')
                 {
@@ -5676,6 +5842,24 @@ resync_channel(struct chanNode *channel)
                         changes->args[used++].u.member = mn;
                     }
                 }
+                #ifdef WITH_HALFOP
+                /* If we hop everyone, but they don't... */
+                else if(cData->chOpts[chAutomode] == 'h')
+                {
+                    /* Remove anything except h */
+                    if(mn->modes & ~MODE_HALFOP)
+                    {
+                        changes->args[used].mode = MODE_REMOVE | (mn->modes & ~MODE_HALFOP);
+                        changes->args[used++].u.member = mn;
+                    }
+                    /* Add h */
+                    if(!(mn->modes & MODE_HALFOP))
+                    {
+                        changes->args[used].mode = MODE_HALFOP;
+                        changes->args[used++].u.member = mn;
+                    }
+                }
+                #endif
                 /* If we op everyone, but they dont.. */
                 else if(cData->chOpts[chAutomode] == 'o')
                 {
@@ -6818,6 +7002,13 @@ static MODCMD_FUNC(chan_opt_enfops)
     return channel_level_option(lvlEnfOps, CSFUNC_ARGS);
 }
 
+#ifdef WITH_HALFOP
+static MODCMD_FUNC(chan_opt_enfhalfops)
+{
+    return channel_level_option(lvlEnfHalfOps, CSFUNC_ARGS);
+}
+#endif
+
 static MODCMD_FUNC(chan_opt_enfmodes)
 {
     return channel_level_option(lvlEnfModes, CSFUNC_ARGS);
@@ -7055,7 +7246,11 @@ static MODCMD_FUNC(user_opt_autoop)
         reply("CSMSG_NOT_USER", channel->name);
         return 0;
     }
+    #ifdef WITH_HALFOP
+    if(uData->access < UL_HALFOP /*channel->channel_info->lvlOpts[lvlGiveOps]*/)
+    #else
     if(uData->access < UL_OP /*channel->channel_info->lvlOpts[lvlGiveOps]*/)
+    #endif
         return user_binary_option("CSMSG_USET_AUTOVOICE", USER_AUTO_OP, CSFUNC_ARGS);
     else
         return user_binary_option("CSMSG_USET_AUTOOP", USER_AUTO_OP, CSFUNC_ARGS);
@@ -7798,7 +7993,11 @@ static CHANSERV_FUNC(cmd_spin)
 /*             bData = add_channel_ban(mn->channel->channel_info, ban, chanserv->nick, now, now, now + duration, "Reward for spinning the wheel of misfortune!"); */
 
 	     change = mod_chanmode_alloc(1);
+         #ifdef WITH_HALFOP
+         change->args[0].mode = MODE_REMOVE|MODE_CHANOP|MODE_HALFOP|MODE_VOICE;
+         #else
 	     change->args[0].mode = MODE_REMOVE|MODE_CHANOP|MODE_VOICE;
+         #endif
 	     change->args[0].u.member = GetUserMode(mn->channel, user);
 	     change->argc = 1;
 
@@ -8376,6 +8575,10 @@ handle_join(struct modeNode *mNode, UNUSED_ARG(void *extra))
     {
         if(cData->chOpts[chAutomode] == 'v')
             modes |= MODE_VOICE;
+        #ifdef WITH_HALFOP
+        else if(cData->chOpts[chAutomode] == 'h')
+            modes |= MODE_HALFOP;
+        #endif
         else if(cData->chOpts[chAutomode] == 'o')
             modes |= MODE_CHANOP;
     }
@@ -8410,6 +8613,10 @@ handle_join(struct modeNode *mNode, UNUSED_ARG(void *extra))
                 /* or do their access level */
                 else if(uData->access >= UL_OP )
                     modes |= MODE_CHANOP;
+                #ifdef WITH_HALFOP
+                else if(uData->access >= UL_HALFOP )
+                    modes |= MODE_HALFOP;
+                #endif
                 else if(uData->access >= UL_PEON && cData->chOpts[chAutomode] != 'm')
                     modes |= MODE_VOICE;
             }
@@ -8521,6 +8728,10 @@ handle_auth(struct userNode *user, UNUSED_ARG(struct handle_info *old_handle), U
         {
             if(channel->access >= UL_OP )
                 change.args[0].mode = MODE_CHANOP;
+            #ifdef WITH_HALFOP
+            else if(channel->access >= UL_HALFOP)
+                change.args[0].mode = MODE_HALFOP;
+            #endif
             else if(channel->access >= UL_PEON )
                 change.args[0].mode = MODE_VOICE;
             else
@@ -8538,10 +8749,15 @@ handle_auth(struct userNode *user, UNUSED_ARG(struct handle_info *old_handle), U
     {
         struct chanNode *chan = user->channels.list[ii]->channel;
         struct banData *ban;
-
+        #ifdef WITH_HALFOP
+        if((user->channels.list[ii]->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE))
+           || !chan->channel_info
+           || IsSuspended(chan->channel_info))
+        #else
         if((user->channels.list[ii]->modes & (MODE_CHANOP|MODE_VOICE))
            || !chan->channel_info
            || IsSuspended(chan->channel_info))
+        #endif
             continue;
         if(protect_user(user, chanserv, chan->channel_info, true))
             continue;
@@ -8797,7 +9013,11 @@ handle_nick_change(struct userNode *user, UNUSED_ARG(const char *old_nick), UNUS
         /* Need not check for bans if they're opped or voiced. */
         /* TODO: does this make sense in automode v, h, and o? *
          * lets still enforce on voice people anyway, and see how that goes -Rubin */
+        #ifdef WITH_HALFOP
+        if(user->channels.list[ii]->modes & (MODE_CHANOP|MODE_HALFOP|MODE_VOICE ))
+        #else
         if(user->channels.list[ii]->modes & (MODE_CHANOP|MODE_VOICE ))
+        #endif
             continue;
         /* Need not check for bans unless channel registration is active. */
         if(!channel->channel_info || IsSuspended(channel->channel_info))
@@ -9008,6 +9228,16 @@ chanserv_conf_read(void)
         strlist = string_list_copy(strlist);
     else
     {
+        #ifdef WITH_HALFOP
+        static const char *list[] = {
+            "DefaultTopic", "TopicMask", "Greeting", "UserGreeting", "Modes",
+            "PubCmd", "InviteMe", "UserInfo","EnfOps",
+            "EnfHalfOps", "EnfModes", "EnfTopic", "TopicSnarf", "Setters",
+            "AutoMode", "CtcpReaction", "Protect", "Toys", "TopicRefresh", "Resync",
+            "DynLimit", "NoDelete", "BanTimeout",
+            NULL
+        };
+        #else
         static const char *list[] = {
             /* free form text */
             "DefaultTopic", "TopicMask", "Greeting", "UserGreeting", "Modes",
@@ -9021,6 +9251,7 @@ chanserv_conf_read(void)
             /* delimiter */
             NULL
         };
+        #endif
         strlist = alloc_string_list(ArrayLength(list)-1);
         for(ii=0; list[ii]; ii++)
             string_list_append(strlist, strdup(list[ii]));
@@ -9355,6 +9586,9 @@ chanserv_channel_read(const char *key, struct record_data *hir)
             case 'n': lvl = UL_OWNER+1; break;
             case 'o': lvl = UL_OP; break;
             case 'p': lvl = UL_PEON; break;
+            #ifdef WITH_HALFOP
+            case 'h': lvl = UL_HALFOP; break;
+            #endif
             case 'w': lvl = UL_OWNER; break;
             default: lvl = 0; break;
             }
@@ -9908,6 +10142,9 @@ init_chanserv(const char *nick)
     DEFINE_COMMAND(mdelop, 2, MODCMD_REQUIRE_CHANUSER, "access", "manager", NULL);
     DEFINE_COMMAND(mdelpeon, 2, MODCMD_REQUIRE_CHANUSER, "access", "manager", NULL);
     DEFINE_COMMAND(mdelpal, 2, MODCMD_REQUIRE_CHANUSER, "access", "manager", NULL);
+    #ifdef WITH_HALFOP
+    DEFINE_COMMAND(mdelhalfop, 2, MODCMD_REQUIRE_CHANUSER, "access", "manager", NULL);
+    #endif
 
     DEFINE_COMMAND(levels, 1, 0, NULL);
 
@@ -9922,17 +10159,31 @@ init_chanserv(const char *nick)
     DEFINE_COMMAND(downall, 1, MODCMD_REQUIRE_AUTHED, NULL);
     DEFINE_COMMAND(op, 2, MODCMD_REQUIRE_CHANNEL, "access", "op", NULL);
     DEFINE_COMMAND(deop, 2, MODCMD_REQUIRE_CHANNEL, "template", "op", NULL);
+    #ifdef WITH_HALFOP
+    DEFINE_COMMAND(hop, 2, MODCMD_REQUIRE_CHANNEL, "access", "op", NULL);
+    DEFINE_COMMAND(dehop, 2, MODCMD_REQUIRE_CHANNEL, "template", "op", NULL);
+    #endif
     DEFINE_COMMAND(voice, 2, MODCMD_REQUIRE_CHANNEL, "template", "op", NULL);
     DEFINE_COMMAND(devoice, 2, MODCMD_REQUIRE_CHANNEL, "template", "op", NULL);
 
+    #ifdef WITH_HALFOP
+    DEFINE_COMMAND(kickban, 2, MODCMD_REQUIRE_REGCHAN, "template", "hop", NULL);
+    DEFINE_COMMAND(kick, 2, MODCMD_REQUIRE_REGCHAN, "template", "hop", NULL);
+    DEFINE_COMMAND(ban, 2, MODCMD_REQUIRE_REGCHAN, "template", "hop", NULL);
+    DEFINE_COMMAND(unban, 2, 0, "template", "hop", NULL);
+    DEFINE_COMMAND(unbanall, 1, 0, "template", "hop", NULL);
+    DEFINE_COMMAND(unbanme, 1, MODCMD_REQUIRE_CHANUSER, "template", "hop", NULL);
+	DEFINE_COMMAND(topic, 1, MODCMD_REQUIRE_REGCHAN, "template", "hop", "flags", "+never_csuspend", NULL);
+    #else
     DEFINE_COMMAND(kickban, 2, MODCMD_REQUIRE_REGCHAN, "template", "op", NULL);
     DEFINE_COMMAND(kick, 2, MODCMD_REQUIRE_REGCHAN, "template", "op", NULL);
     DEFINE_COMMAND(ban, 2, MODCMD_REQUIRE_REGCHAN, "template", "op", NULL);
     DEFINE_COMMAND(unban, 2, 0, "template", "op", NULL);
     DEFINE_COMMAND(unbanall, 1, 0, "template", "op", NULL);
     DEFINE_COMMAND(unbanme, 1, MODCMD_REQUIRE_CHANUSER, "template", "op", NULL);
-    DEFINE_COMMAND(open, 1, MODCMD_REQUIRE_CHANUSER, "template", "op", NULL);
     DEFINE_COMMAND(topic, 1, MODCMD_REQUIRE_REGCHAN, "template", "op", "flags", "+never_csuspend", NULL);
+    #endif
+    DEFINE_COMMAND(open, 1, MODCMD_REQUIRE_CHANUSER, "template", "op", NULL);
     DEFINE_COMMAND(mode, 1, MODCMD_REQUIRE_REGCHAN, "template", "op", NULL);
     DEFINE_COMMAND(inviteme, 1, MODCMD_REQUIRE_CHANNEL, "access", "1", NULL);
     DEFINE_COMMAND(invite, 1, MODCMD_REQUIRE_CHANNEL, "access", "manager", NULL);
@@ -10001,6 +10252,9 @@ init_chanserv(const char *nick)
     DEFINE_CHANNEL_OPTION(enfops);
     DEFINE_CHANNEL_OPTION(automode);
     DEFINE_CHANNEL_OPTION(protect);
+    #ifdef WITH_HALFOP
+    DEFINE_CHANNEL_OPTION(enfhalfops);
+    #endif
     DEFINE_CHANNEL_OPTION(enfmodes);
     DEFINE_CHANNEL_OPTION(enftopic);
     DEFINE_CHANNEL_OPTION(pubcmd);

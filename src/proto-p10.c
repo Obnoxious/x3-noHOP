@@ -901,6 +901,10 @@ irc_burst(struct chanNode *chan)
             burst_line[pos++] = ':';
             if (last_mode & MODE_CHANOP)
                 burst_line[pos++] = 'o';
+            #ifdef WITH_HALFOP
+            if (last_mode & MODE_HALFOP)
+                burst_line[pos++] = 'h';
+            #endif
             if (last_mode & MODE_VOICE)
                 burst_line[pos++] = 'v';
         }
@@ -1282,6 +1286,10 @@ static CMD_FUNC(cmd_whois)
                 *(buf + len++) = '*';
             if (mn->modes & MODE_CHANOP)
                 *(buf + len++) = '@';
+            #ifdef WITH_HOP
+            else if (mn->modes & MODE_HALFOP)
+                *(buf + len++) = '%';
+            #endif
             else if (mn->modes & MODE_VOICE)
                 *(buf + len++) = '+';
 
@@ -1916,7 +1924,14 @@ static CMD_FUNC(cmd_burst)
                 if (sep == 'o') {
                     mode |= MODE_CHANOP;
                     oplevel = -1;
-                } else if (sep == 'v') {
+                } 
+                  #ifdef WITH_HALFOP
+                  else if (sep == 'h') {
+                    mode |= MODE_HALFOP;
+                    opmode = -1;
+                }
+                  #endif
+                  else if (sep == 'v') {
                     mode |= MODE_VOICE;
                     oplevel = -1;
                 } else if (isdigit(sep)) {
@@ -3533,6 +3548,10 @@ mod_chanmode_parse(struct chanNode *channel, char **modes, unsigned int argc, un
 
             if (modes[0][ii] == 'o')
                 change->args[ch_arg].mode = MODE_CHANOP;
+            #ifdef WITH_HALFOP
+            else if (modes[0][ii] == 'h')
+                change->args[ch_arg].mode = MODE_HALFOP;
+            #endif
             else if (modes[0][ii] == 'v')
                 change->args[ch_arg].mode = MODE_VOICE;
 
@@ -3671,6 +3690,10 @@ mod_chanmode_announce(struct userNode *who, struct chanNode *channel, struct mod
         default:
             if (change->args[arg].mode & MODE_CHANOP)
                 mod_chanmode_append(&chbuf, 'o', change->args[arg].u.member->user->numeric);
+            #ifdef WITH_HALFOP
+            if (change->args[arg].mode & MODE_HALFOP)
+                mod_chanmode_append(&chbuf, 'h', change->args[arg].u.member->user->numeric);
+            #endif
             if (change->args[arg].mode & MODE_VOICE)
                 mod_chanmode_append(&chbuf, 'v', change->args[arg].u.member->user->numeric);
             break;
@@ -3730,6 +3753,10 @@ mod_chanmode_announce(struct userNode *who, struct chanNode *channel, struct mod
         default:
             if (change->args[arg].mode & MODE_CHANOP)
                 mod_chanmode_append(&chbuf, 'o', change->args[arg].u.member->user->numeric);
+            #ifdef WITH_HALFOP
+            if (change->args[arg].mode & MODE_HALFOP)
+                mod_chanmode_append(&chbuf, 'h', change->args[arg].u.member->user->numeric);
+            #endif
             if (change->args[arg].mode & MODE_VOICE)
                 mod_chanmode_append(&chbuf, 'v', change->args[arg].u.member->user->numeric);
             break;
@@ -3828,6 +3855,9 @@ clear_chanmode(struct chanNode *channel, const char *modes)
     for (cleared = 0; *modes; modes++) {
         switch (*modes) {
         case 'o': cleared |= MODE_CHANOP; break;
+        #ifdef WITH_HALFOP
+        case 'h': cleared |= MODE_HALFOP; break;
+        #endif
         case 'v': cleared |= MODE_VOICE; break;
         case 'p': cleared |= MODE_PRIVATE; break;
         case 's': cleared |= MODE_SECRET; break;
@@ -3893,6 +3923,15 @@ clear_chanmode(struct chanNode *channel, const char *modes)
     }
 
     /* Removed member modes. */
+    #ifdef WITH_HALFOP
+    if ((cleared & (MODE_CHANOP | MODE_HALFOP | MODE_VOICE)) && channel->members.used) {
+        int mask = ~(cleared & (MODE_CHANOP | MODE_HALFOP | MODE_VOICE));
+        unsigned int i;
+        
+        for (i = 0; i < channel->members.used; i++)
+            channel->members.list[i]->modes &= mask;
+    }
+    #else
     if ((cleared & (MODE_CHANOP | MODE_VOICE)) && channel->members.used) {
         int mask = ~(cleared & (MODE_CHANOP | MODE_VOICE));
         unsigned int i;
@@ -3900,7 +3939,7 @@ clear_chanmode(struct chanNode *channel, const char *modes)
         for (i = 0; i < channel->members.used; i++)
             channel->members.list[i]->modes &= mask;
     }
-
+    #endif
     return 1;
 }
 

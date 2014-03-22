@@ -25,6 +25,9 @@
 
 enum UL_ALIASES {
     UL_PEON = 1,
+    #ifdef WITH_HALFOP
+    UL_HALFOP = 150,
+    #endif
     UL_OP = 200,
     UL_MANAGER = 300,
     UL_PRESENT = UL_MANAGER, /* Level needed to keep the channel active */
@@ -35,6 +38,9 @@ enum UL_ALIASES {
 
 enum levelOption {
     lvlEnfOps,
+    #ifdef WITH_HALFOP
+    lvlEnfHalfOps,
+    #endif
     lvlEnfModes,
     lvlEnfTopic,
     lvlPubCmd,
@@ -66,6 +72,9 @@ enum charOption {
 #define CHANNEL_TOPIC_SNARF	0x00000040 /* (1 << 6) - DEPRECATED */
 #define CHANNEL_PEON_INVITE     0x00000080 /* (1 << 7) - DEPRECATED */
 #define CHANNEL_OFFCHANNEL      0x00000100 /* (1 << 8) */
+#ifdef WITH_HALFOP
+#define CHANNEL_HOP_ALL         0x00000200
+#endif
 #define CHANNEL_UNREVIEWED      0x00000400 /* (1 << 10) */
 
 /* Flags with values over 0x20000000 or (1 << 29) will not work
