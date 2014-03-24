@@ -5433,6 +5433,22 @@ check_user_nick(struct userNode *user, UNUSED_ARG(void *extra)) {
     return 0;
 }
 
+static int
+new_user_event(struct userNode *user, void *extra) {
+
+    /* If the user's server is not bursting,
+     * the user is authed, the account has autohide set
+     * and the user doesn't have user mode +x then apply
+     * the autohide setting.
+     */
+     if (!user->uplink->burst && user->handle_info &&
+         HANDLE_FLAGGED(user->handle_info, AUTOHIDE) &&
+         !IsHiddenHost(user))
+         irc_umode(user, "+x");
+
+	return check_user_nick(user, extra);
+}
+
 void
 handle_account(struct userNode *user, const char *stamp)
 {
@@ -5918,7 +5934,7 @@ init_nickserv(const char *nick)
     struct chanNode *chan;
     unsigned int i;
     NS_LOG = log_register_type("NickServ", "file:nickserv.log");
-    reg_new_user_func(check_user_nick, NULL);
+    reg_new_user_func(new_user_event, NULL);
     reg_nick_change_func(handle_nick_change, NULL);
     reg_del_user_func(nickserv_remove_user, NULL);
     reg_account_func(handle_account);
