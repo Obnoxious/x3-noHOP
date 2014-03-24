@@ -184,6 +184,7 @@ static const struct message_entry msgtab[] = {
     { "OSMSG_OP_DONE", "Opped the requested lusers." },
     { "OSMSG_OPALL_DONE", "Opped everyone on $b%s$b." },
     { "OMSG_BAD_SVSNICK", "$b%s$b is an invalid nickname." },
+    { "OMSG_SVSABUSE", "Services can not be SVS(NICK|JOIN|PARTED)." },
 
     { "OSMSG_WHOIS_IDENT",      "%s (%s@%s) from %d.%d.%d.%d" },
     { "OSMSG_WHOIS_NICK",       "Nick         : %s" },
@@ -1699,6 +1700,11 @@ static MODCMD_FUNC(cmd_svsjoin)
        return 0;
     }
 
+    if (IsService(target)) {
+       reply("OMSG_SVSABUSE",  argv[1]);
+       return 0;
+    }
+
     if (!(channel = GetChannel(argv[2]))) {
        channel = AddChannel(argv[2], now, NULL, NULL, NULL);
     }
@@ -1722,6 +1728,10 @@ static MODCMD_FUNC(cmd_svsnick)
     }
     if(!is_valid_nick(argv[2])) {
        reply("OMSG_BAD_SVSNICK", argv[2]);
+       return 0;
+    }
+    if (IsService(target)) {
+       reply("OMSG_SVSABUSE",  argv[1]);
        return 0;
     }
     irc_svsnick(opserv, target, argv[2]);
@@ -1942,6 +1952,11 @@ static MODCMD_FUNC(cmd_svspart)
     target = GetUserH(argv[1]);
     if (!target) {
        reply("MSG_NICK_UNKNOWN", argv[1]);
+       return 0;
+    }
+
+    if (IsService(target)) {
+       reply("OMSG_SVSABUSE",  argv[1]);
        return 0;
     }
 
